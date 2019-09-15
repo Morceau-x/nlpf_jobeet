@@ -25,6 +25,7 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    //Get les utilisateurs et chercher une combinaison qui match
 
   }
 
