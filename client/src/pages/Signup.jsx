@@ -2,17 +2,18 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { Card, Form, Input, Button } from '../style/AuthForms';
 
-function Login() {
+function Signup() {
   return (
     <Card>
       <Form>
         <Input type="email" placeholder="email" />
         <Input type="password" placeholder="password" />
-        <Button>Sign In</Button>
+        <Input type="password" placeholder="password again" />
+        <Button>Sign Up</Button>
       </Form>
-      <Link to="/signup">Don't have an account?</Link>
+      <Link to="/login">Already have an account?</Link>
     </Card>
   );
 }
 
-export default Login;
+export default Signup;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "../style/login.css"
+import api from "../api"
 
 export default class Login extends Component {
   constructor(props) {
@@ -24,11 +25,13 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
   }
 
   render() {
     return (
-      <div className="Login">
+      <div className="login-form">
+       <h2 className="welcome-message">Bienvenue chez Jobeet</h2>
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
             <FormLabel>Email</FormLabel>

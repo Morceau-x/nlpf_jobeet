@@ -1,5 +1,11 @@
-.Login {
- width: 20%;
+.login-form {
+ width: 25%;
  margin: 0 auto;
  margin-top: 5%;
+}
+
+.welcome-message {
+ color: rgb(56, 67, 223);
+ margin : 0 auto;
+ margin-bottom: 50px;
 }
