@@ -6,10 +6,11 @@ import Admin from "../pages/Admin";
 import Login from "../pages/Login";
 import Signup from '../pages/Signup';
 import { AuthContext } from "../context/auth";
+import NavBar from "../components/NavBar"
 
 function App(props) {
   const [authTokens, setAuthTokens] = useState();
-  
+
   const setTokens = (data) => {
     localStorage.setItem("tokens", JSON.stringify(data));
     setAuthTokens(data);
@@ -18,7 +19,7 @@ function App(props) {
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
         <div>
-          
+          <NavBar/>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
