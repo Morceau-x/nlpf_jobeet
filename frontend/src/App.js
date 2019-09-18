@@ -14,6 +14,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import PrivateRoute from "./common/PrivateRoute";
 import Dashboard from "./components/Dashboard";
+import Profile from "./components/auth/Profile"
 const SweetAlert = require("react-bootstrap-sweetalert");
 // Check for token
 if (localStorage.jwtToken) {
@@ -48,6 +49,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/profile" component={Profile} />
             </Switch>
             {/* <Footer /> */}
           </div>
