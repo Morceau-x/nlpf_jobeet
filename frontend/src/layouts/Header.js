@@ -65,7 +65,7 @@ class Header extends Component {
                 </NavItem>
             </Nav>
         );
-        const candidatNav = (
+        const applicantNav = (
             <Nav className="ml-auto" navbar>
                 <NavItem>
                     <NavLink href="/dashboard">Offres</NavLink>
@@ -75,6 +75,16 @@ class Header extends Component {
                 </NavItem>
             </Nav>
         );
+        const recruiterNav = (
+          <Nav className="ml-auto" navbar>
+              <NavItem>
+                  <NavLink href="/enterprise">Enterprise</NavLink>
+              </NavItem>
+              <NavItem>
+                  <NavLink href="/notifications">Notifications</NavLink>
+              </NavItem>
+          </Nav>
+      );
         return (
             <div className="mb-2">
                 <Navbar color="white" className="navbar-mern" light expand="md">
@@ -89,7 +99,7 @@ class Header extends Component {
                         <h4 className="d-inline-block mr-2" >Jobeet</h4>
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle}/>
-                    {isAuthenticated ? candidatNav : null}
+                    {(isAuthenticated && user.role === 1) ? applicantNav : (isAuthenticated && user.role === 2) ?  recruiterNav : null}
                     <Collapse isOpen={this.state.isOpen} navbar>
                         {isAuthenticated ? authLinks : guestLinks}
                     </Collapse>
