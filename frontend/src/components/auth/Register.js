@@ -48,7 +48,6 @@ class Register extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    console.log(this.state)
   }
 
   setRole(role) {
@@ -64,12 +63,15 @@ class Register extends Component {
     e.preventDefault();
 
     const newUser = {
-      role: this.state.applicant ? 1 : 2,
+      role: this.state.applicant === true ? 1 : 2,
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       confirm_password: this.state.confirm_password
     };
+
+    console.log(this.state)
+    console.log(newUser)
 
     this.props.registerUser(newUser, this.props.history);
     if (!this.state.errors.length > 0) {

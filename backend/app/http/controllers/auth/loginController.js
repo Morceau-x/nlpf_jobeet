@@ -17,7 +17,7 @@ exports.login = (req, res) => {
     bcrypt.compare(req.body.password, user.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payload = { id: user.id, name: user.name, email: user.email }; // Create JWT Payload
+        const payload = { id: user.id, name: user.name, email: user.email, role: user.role }; // Create JWT Payload
 
         // Sign Token
         jwt.sign(payload, key, { expiresIn: 3600 }, (err, token) => {

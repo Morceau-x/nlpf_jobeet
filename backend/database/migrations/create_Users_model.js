@@ -9,8 +9,7 @@ module.exports = {
   },
   role: {
     type: Number,
-    required: true,
-    default: 1
+    required: true 
   },
   password: {
     type: String,
