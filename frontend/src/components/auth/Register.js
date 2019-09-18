@@ -22,6 +22,8 @@ class Register extends Component {
     super();
     this.state = {
       name: "",
+      applicant: true,
+      recruiter: false,
       email: "",
       password: "",
       confirm_password: "",
@@ -46,12 +48,23 @@ class Register extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    console.log(this.state)
+  }
+
+  setRole(role) {
+    if (role === 1) {
+      this.setState({ applicant: true, recruiter: false });
+    }
+    else {
+      this.setState({ applicant: false, recruiter: true });
+    }
   }
 
   onSubmit(e) {
     e.preventDefault();
 
     const newUser = {
+      role: this.state.applicant ? 1 : 2,
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
@@ -80,6 +93,36 @@ class Register extends Component {
               <CardBody>
                 {/* Form Starts Here */}
                 <Form noValidate onSubmit={this.onSubmit}>
+                  <FormGroup row>
+                    <Label className="text-md-right" for="name" sm={4}>
+                      Role
+                    </Label>
+                    <Col sm={8}>
+                      <FormGroup check>
+                        <Label check>
+                          <Input
+                            value={this.state.applicant}
+                            type="radio"
+                            name="radio1"
+                            onClick={() => this.setRole(1)}
+                            defaultChecked={this.state.applicant}
+                            />{' '}
+                          Applicant
+                        </Label>
+                      </FormGroup>
+                      <FormGroup check>
+                        <Label check>
+                          <Input
+                          value={this.state.recruiter}
+                          type="radio"
+                          name="radio1"
+                          onClick={() => this.setRole(2)}
+                          />{' '}
+                          Recruiter
+                        </Label>
+                      </FormGroup>
+                    </Col>
+                  </FormGroup>
                   <FormGroup row>
                     <Label className="text-md-right" for="name" sm={4}>
                       Name

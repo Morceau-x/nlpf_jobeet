@@ -8,9 +8,9 @@ module.exports = {
     required: true
   },
   role: {
-    type: String,
-    required: false,
-    default: "user"
+    type: Number,
+    required: true,
+    default: 1
   },
   password: {
     type: String,
