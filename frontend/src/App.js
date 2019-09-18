@@ -49,7 +49,7 @@ class App extends Component {
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </Router>
       </Provider>

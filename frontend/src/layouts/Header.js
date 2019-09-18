@@ -40,15 +40,14 @@ class Header extends Component {
       <Nav className="ml-auto" navbar>
         <UncontrolledDropdown nav inNavbar>
           <DropdownToggle nav caret>
-            {user.name}
+            Hello {user.name}
           </DropdownToggle>
           <DropdownMenu right>
+            <DropdownItem>Profile</DropdownItem>
+            <DropdownItem divider />
             <DropdownItem onClick={this.onLogoutClick.bind(this)}>
               Logout
             </DropdownItem>
-            <DropdownItem>Option 2</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>Reset</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
       </Nav>
@@ -61,18 +60,24 @@ class Header extends Component {
         <NavItem>
           <NavLink href="/login">Login</NavLink>
         </NavItem>
+      </Nav>
+    );
+    const candidatNav = (
+      <Nav className="ml-auto" navbar>
         <NavItem>
-          <NavLink href="https://github.com/riteshsingh1/mern-starter">
-            GitHub
-          </NavLink>
+          <NavLink href="/dashboard">Offres</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/notifications">Notifications</NavLink>
         </NavItem>
       </Nav>
     );
     return (
       <div className="mb-2">
         <Navbar color="white" className="navbar-mern" light expand="md">
-          <NavbarBrand href="/">Mern Starter</NavbarBrand>
+          <NavbarBrand href="/">Jobeet</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
+          {isAuthenticated ? candidatNav : null}
           <Collapse isOpen={this.state.isOpen} navbar>
             {isAuthenticated ? authLinks : guestLinks}
           </Collapse>
