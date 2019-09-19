@@ -8,7 +8,7 @@ class Dashboard extends Component {
     return (
       <div className="container h-100">
         <div className="row h-100v justify-content-center align-items-center title-text">
-          Hello {user.name}
+          Hello {user.firstname}
         </div>
       </div>
     );

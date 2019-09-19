@@ -21,7 +21,8 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
+      firstname: "",
+      lastname: "",
       applicant: true,
       recruiter: false,
       email: "",
@@ -64,7 +65,8 @@ class Register extends Component {
 
     const newUser = {
       role: this.state.applicant === true ? 1 : 2,
-      name: this.state.name,
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
       email: this.state.email,
       password: this.state.password,
       confirm_password: this.state.confirm_password
@@ -76,7 +78,8 @@ class Register extends Component {
     this.props.registerUser(newUser, this.props.history);
     if (!this.state.errors.length > 0) {
       this.setState({
-        name: "",
+        firstname: "",
+        lastname: "",
         email: "",
         password: "",
         confirm_password: "",
@@ -126,16 +129,32 @@ class Register extends Component {
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label className="text-md-right" for="name" sm={4}>
-                      Name
+                    <Label className="text-md-right" for="firstname" sm={4}>
+                      Firstname
                     </Label>
                     <Col sm={8}>
                       <Input
                         invalid={errors.name}
-                        type="name"
-                        name="name"
-                        id="name"
-                        value={this.state.name}
+                        type="firstname"
+                        name="firstname"
+                        id="firstname"
+                        value={this.state.firstname}
+                        onChange={this.onChange}
+                      />
+                      <FormFeedback>{errors.name}</FormFeedback>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label className="text-md-right" for="lastname" sm={4}>
+                      Lastname
+                    </Label>
+                    <Col sm={8}>
+                      <Input
+                        invalid={errors.name}
+                        type="lastname"
+                        name="lastname"
+                        id="lastname"
+                        value={this.state.lastname}
                         onChange={this.onChange}
                       />
                       <FormFeedback>{errors.name}</FormFeedback>

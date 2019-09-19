@@ -43,7 +43,7 @@ class Header extends Component {
       <Nav className="ml-auto" navbar>
         <UncontrolledDropdown nav inNavbar>
           <DropdownToggle nav caret>
-            Hello {user.name}
+            {user.firstname} {user.lastname}
           </DropdownToggle>
           <DropdownMenu right>
             <DropdownItem>

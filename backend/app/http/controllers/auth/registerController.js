@@ -12,7 +12,8 @@ exports.register = (req, res) => {
     return res.status(422).json(errors);
   }
   const users = new user({
-    name: req.body.name,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
     email: req.body.email,
     password: req.body.password,
     role: req.body.role

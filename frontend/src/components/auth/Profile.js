@@ -36,7 +36,7 @@ class Profile extends Component {
    this.setState(
     {
      email: user.email,
-     firstname: user.name,
+     firstname: user.firstname,
      lastname: user.lastname,
      role: user.role
     }
@@ -141,7 +141,7 @@ class Profile extends Component {
                   </FormGroup>
 
                     <Col sm={{ size: 10, offset: 4 }}>
-                      <Button onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
+                      <Button className="mr-5" onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
                       <Button disabled={this.state.disable} color="success">Save</Button>
                     </Col>
                     
