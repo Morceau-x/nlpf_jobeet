@@ -63,6 +63,7 @@ class Profile extends Component {
       email: this.state.email
     };
     this.props.updateUser(updatedUser, this.props.history);
+    this.setState({ disable: true });
   }
 
   render() {
@@ -121,7 +122,7 @@ class Profile extends Component {
                         id="email"
                         value={this.state.email}
                         onChange={this.onChange}
-                        disabled={this.state.disable}
+                        disabled={true}
                       />
                       <FormFeedback>{errors.email}</FormFeedback>
                     </Col>
@@ -137,7 +138,7 @@ class Profile extends Component {
                         id="role"
                         value={this.state.role === 1 ? "Applicant" : "Recruiter"}
                         onChange={this.onChange}
-                        disabled="true"
+                        disabled={true}
                       />
                       <FormFeedback>{errors.password}</FormFeedback>
                     </Col>

@@ -15,7 +15,6 @@ exports.update = (req, res) => {
     // errors.email = "User not found";
     return res.status(404).json("user not found");
   }
-  console.log(user)
   user.firstname = req.body.firstname
   user.lastname = req.body.lastname
   user
