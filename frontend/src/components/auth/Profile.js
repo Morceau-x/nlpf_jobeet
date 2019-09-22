@@ -15,16 +15,19 @@ import {
   FormFeedback,
   Input
 } from "reactstrap";
+import { updateUser } from "../../actions/authActions";
+
+
 class Profile extends Component {
   constructor() {
     super();
     this.state = {
-     email: "",
-     firstname: "",
-     lastname: "",
-     role: "",
-     errors: {},
-     disable: true
+      email: "",
+      firstname: "",
+      lastname: "",
+      role: "",
+      errors: {},
+      disable: true
     };
 
     this.onChange = this.onChange.bind(this);
@@ -32,35 +35,35 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-   const { isAuthenticated, user } = this.props.auth;
-   this.setState(
-    {
-     email: user.email,
-     firstname: user.firstname,
-     lastname: user.lastname,
-     role: user.role
-    }
-   )
+    const { isAuthenticated, user } = this.props.auth;
+    this.setState(
+      {
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        role: user.role
+      }
+    )
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-
-    const userData = {
-      email: this.state.email,
-      password: this.state.password
-    };
-
-    this.props.loginUser(userData);
+  editProfile = () => {
+    this.setState({ disable: false });
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  editProfile = () => {
-   this.setState({ disable : false} );
-}
+  onSubmit(e) {
+    e.preventDefault();
+
+    const updatedUser = {
+      firstname: this.state.firstname,
+      lastname: this.state.lastname,
+      email: this.state.email
+    };
+    this.props.updateUser(updatedUser, this.props.history);
+  }
 
   render() {
     const { errors } = this.state;
@@ -74,7 +77,7 @@ class Profile extends Component {
               <CardBody>
                 {/* Form Starts Here */}
                 <Form onSubmit={this.onSubmit}>
-                <FormGroup row>
+                  <FormGroup row>
                     <Label className="text-md-right" for="firstname" sm={4}>
                       Firstname
                     </Label>
@@ -140,11 +143,11 @@ class Profile extends Component {
                     </Col>
                   </FormGroup>
 
-                    <Col sm={{ size: 10, offset: 4 }}>
-                      <Button className="mr-5" onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
-                      <Button disabled={this.state.disable} color="success">Save</Button>
-                    </Col>
-                    
+                  <Col sm={{ size: 10, offset: 4 }}>
+                    <Button className="mr-5" onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
+                    <Button disabled={this.state.disable} color="success" >Save</Button>
+                  </Col>
+
                 </Form>
 
                 {/* Form Ends Here */}
@@ -157,8 +160,10 @@ class Profile extends Component {
   }
 }
 
+
+
 Profile.propTypes = {
-  loginUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -170,5 +175,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { updateUser }
 )(Profile);

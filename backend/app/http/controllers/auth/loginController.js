@@ -20,7 +20,7 @@ exports.login = (req, res) => {
         const payload = { id: user.id, firstname: user.firstname, lastname: user.lastname,email: user.email, role: user.role }; // Create JWT Payload
 
         // Sign Token
-        jwt.sign(payload, key, { expiresIn: 3600 }, (err, token) => {
+        jwt.sign(payload, key, { expiresIn: 36000 }, (err, token) => {
           return res.json({
             success: true,
             token: "Bearer " + token

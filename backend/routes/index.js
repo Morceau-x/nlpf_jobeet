@@ -18,5 +18,8 @@ router.get(
     return controller.loginController.currentUser(req, res);
   }
 );
+router.post("/update", (req, res) => {
+  return controller.updateController.update(req, res);
+});
 
 module.exports = router;

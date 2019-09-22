@@ -27,6 +27,27 @@ export const registerUser = (userData, history) => dispatch => {
     );
 };
 
+export const updateUser = (userData, history) => dispatch => {
+  axios
+    .post("/update", userData)
+    .then(res =>
+      toast.success(
+        "Your profile has been updated.",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: false,
+          hideProgressBar: true
+        }
+      )
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
 // Login - Get User Token
 export const loginUser = userData => dispatch => {
   axios
