@@ -9,6 +9,8 @@ const helmet = require("helmet");
 const path = require("path");
 const passport = require("passport");
 
+var initSkills = require('./app/http/controllers/skills/initController')
+
 const app = new express();
 // Boot Application
 app.listen(application.port);
@@ -32,5 +34,5 @@ app.use("/", routes);
 // connect to database
 mongoose
   .connect(database.mongoUri, { useNewUrlParser: true })
-  .then(() => console.log("MongoDB Connected"))
+  .then(() => console.log("MongoDB Connected"), initSkills.init())
   .catch(err => console.log(err));
