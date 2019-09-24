@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
+import Select from "react-select";
 
 import {
   Card,
@@ -17,6 +18,11 @@ import {
 } from "reactstrap";
 import { updateUser } from "../../actions/authActions";
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+];
 
 class Profile extends Component {
   constructor() {
@@ -27,7 +33,8 @@ class Profile extends Component {
       lastname: "",
       role: "",
       errors: {},
-      disable: true
+      disable: true,
+      selectedOption: null
     };
 
     this.onChange = this.onChange.bind(this);
@@ -53,6 +60,10 @@ class Profile extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+  handleChange = selectedOption => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  };
 
   onSubmit(e) {
     e.preventDefault();
@@ -67,6 +78,7 @@ class Profile extends Component {
   }
 
   render() {
+    const { selectedOption } = this.state;
     const { errors } = this.state;
     const { isAuthenticated, user } = this.props.auth;
     return (
@@ -148,6 +160,15 @@ class Profile extends Component {
                     <Button className="mr-5" onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
                     <Button disabled={this.state.disable} color="success" >Save</Button>
                   </Col>
+
+                  <Select
+                    value={selectedOption}
+                    isMulti
+                    onChange={this.handleChange}
+                    options={options}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                  />
 
                 </Form>
 

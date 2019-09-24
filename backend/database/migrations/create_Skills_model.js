@@ -7,7 +7,7 @@ module.exports = {
    type: Number,
    required: true
  },
- more: {
+ description: {
    type: String,
    required: false
  },

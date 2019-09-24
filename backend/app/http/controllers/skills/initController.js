@@ -10,6 +10,5 @@ module.exports = {
     .then(console.log("Added skill: " + s.name))
     .catch(err => console.log(err))
   );
-
  }
 };
