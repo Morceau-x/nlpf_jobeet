@@ -11,6 +11,14 @@ module.exports = {
    type: String,
    required: false
  },
+ value : {
+  type: String,
+  default: this.name
+ },
+ label : {
+  type: String,
+  default: this.name
+ },
  created_at: {
    type: Date,
    default: Date.now

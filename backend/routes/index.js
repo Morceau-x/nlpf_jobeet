@@ -22,7 +22,7 @@ router.post("/update", (req, res) => {
   return controller.updateController.update(req, res);
 });
 
-router.get("/getSkills", (req, res) => {
+router.get("/getSkillsList", (req, res) => {
   return controller.getSkillsList.getSkillsList(req, res);
 })
 

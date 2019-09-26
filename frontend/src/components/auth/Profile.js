@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/authActions";
 import Select from "react-select";
+import axios from "axios";
+
 
 import {
   Card,
@@ -18,10 +20,8 @@ import {
 } from "reactstrap";
 import { updateUser } from "../../actions/authActions";
 
-const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' },
+let skillsList = [
+  
 ];
 
 class Profile extends Component {
@@ -34,14 +34,14 @@ class Profile extends Component {
       role: "",
       errors: {},
       disable: true,
-      selectedOption: null
+      selectedOption: null,
     };
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { isAuthenticated, user } = this.props.auth;
     this.setState(
       {
@@ -49,9 +49,16 @@ class Profile extends Component {
         firstname: user.firstname,
         lastname: user.lastname,
         role: user.role
-      }
+      },
     )
+    //get skills list
+    axios
+      .get('/getSkillsList')
+      .then(response => (
+        skillsList = response.data
+        ))
   }
+  
 
   editProfile = () => {
     this.setState({ disable: false });
@@ -67,7 +74,6 @@ class Profile extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-
     const updatedUser = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
@@ -156,20 +162,21 @@ class Profile extends Component {
                     </Col>
                   </FormGroup>
 
-                  <Col sm={{ size: 10, offset: 4 }}>
-                    <Button className="mr-5" onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
-                    <Button disabled={this.state.disable} color="success" >Save</Button>
-                  </Col>
-
                   <Select
                     value={selectedOption}
                     isMulti
+                    closeMenuOnSelect={false}
                     onChange={this.handleChange}
-                    options={options}
+                    isDisabled={this.state.disable}
+                    options={skillsList}
                     className="basic-multi-select"
                     classNamePrefix="select"
                   />
 
+                  <Col sm={{ size: 10, offset: 4 }}>
+                    <Button className="mr-5" onClick={this.editProfile} disabled={!this.state.disable} color="primary">Edit</Button>
+                    <Button disabled={this.state.disable} color="success" >Save</Button>
+                  </Col>
                 </Form>
 
                 {/* Form Ends Here */}
