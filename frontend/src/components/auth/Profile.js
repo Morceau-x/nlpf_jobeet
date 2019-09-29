@@ -78,8 +78,18 @@ class Profile extends Component {
     axios
       .get('/getSkillsList')
       .then(response => (
-        techSkillsList = response.data.filter(s => s.type === 1),
-        softSkillsList = response.data.filter(s => s.type === 2)
+        techSkillsList = response.data.filter(s => s.type === 1).map(s => {
+          const skill = {};
+          skill.label = s.name;
+          skill.value = s.name;
+          return skill;
+      }),
+        softSkillsList = response.data.filter(s => s.type === 2).map(s => {
+          const skill = {};
+          skill.label = s.name;
+          skill.value = s.name;
+          return skill;
+      })
       ))
   }
 
@@ -91,30 +101,31 @@ class Profile extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  handleChangeTech = selectedTech => {
-    this.setState({ selectedTechSkills: selectedTech });
-    console.log(`Option selected:`, this.state.selectedTechSkills);
+  handleChangeTech = selectedTechSkills => {
+    this.setState({ selectedTechSkills: selectedTechSkills });
+    console.log(`Tech Skills selected:`, this.state.selectedTechSkills);
   };
-  handleChangeSoft = selectedSoft => {
-    this.setState({ selectedSoftSkills: selectedSoft });
-    console.log(`Option selected:`, this.state.selectedSoftSkills);
+  handleChangeSoft = selectedSoftSkills => {
+    this.setState({ selectedSoftSkills: selectedSoftSkills });
+    console.log(`Soft Skills selected:`, this.state.selectedSoftSkills);
   };
-
+  
   onSubmit(e) {
     e.preventDefault();
     const updatedUser = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       email: this.state.email,
-      techSkills: this.state.selectedTechSkills.map(s => s.name),
-      softSkills: this.state.selectedSoftSkills.map(s => s.name)
+      techSkills: this.state.selectedTechSkills ? this.state.selectedTechSkills.map(s => s.name) : [],
+      softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.name) : []
     };
+    console.log(updatedUser)
     this.props.updateUser(updatedUser, this.props.history);
     this.setState({ disable: true });
   }
 
   render() {
-    const { selectedOption } = this.state;
+    const { selectedTechSkills, selectedSoftSkills} = this.state;
     const { errors } = this.state;
     const { isAuthenticated, user } = this.props.auth;
     return (
@@ -200,7 +211,8 @@ class Profile extends Component {
                     isDisabled={this.state.disable}
                     options={techSkillsList}
                     className="basic-multi-select"
-                    classNamePrefix="select"
+                    onInputChange={this.handleInputChange}
+                    classNamePrefix="select-tech"
                     placeholder="Select technical skills..."
                   />
 
@@ -212,7 +224,7 @@ class Profile extends Component {
                     isDisabled={this.state.disable}
                     options={softSkillsList}
                     className="basic-multi-select"
-                    classNamePrefix="select"
+                    classNamePrefix="select-soft"
                     placeholder="Select soft skills..."
                   />
 
