@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/authActions";
 import Select from "react-select";
 import axios from "axios";
 
@@ -20,8 +19,12 @@ import {
 } from "reactstrap";
 import { updateUser } from "../../actions/authActions";
 
-let skillsList = [
-  
+let techSkillsList = [
+
+];
+
+let softSkillsList = [
+
 ];
 
 class Profile extends Component {
@@ -34,7 +37,8 @@ class Profile extends Component {
       role: "",
       errors: {},
       disable: true,
-      selectedOption: null,
+      selectedTechSkills: [],
+      selectedSoftSkills: [],
     };
 
     this.onChange = this.onChange.bind(this);
@@ -43,22 +47,42 @@ class Profile extends Component {
 
   componentWillMount() {
     const { isAuthenticated, user } = this.props.auth;
-    this.setState(
-      {
-        email: user.email,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        role: user.role
-      },
-    )
+    axios
+      .post('/current', {
+          email: user.email
+        }
+      )
+      .then(res => (
+        this.setState(
+          {
+            email: res.data.email,
+            firstname: res.data.firstname,
+            lastname: res.data.lastname,
+            role: res.data.role,
+            selectedTechSkills: res.data.techSkills.map(s => {
+              const skill = {};
+              skill.label = s;
+              skill.value = s;
+              return skill;
+          }),
+            selectedSoftSkills: res.data.softSkills.map(s => {
+              const skill = {};
+              skill.label = s;
+              skill.value = s;
+              return skill;
+          })
+          },
+        )
+      ))
     //get skills list
     axios
       .get('/getSkillsList')
       .then(response => (
-        skillsList = response.data
-        ))
+        techSkillsList = response.data.filter(s => s.type === 1),
+        softSkillsList = response.data.filter(s => s.type === 2)
+      ))
   }
-  
+
 
   editProfile = () => {
     this.setState({ disable: false });
@@ -67,9 +91,13 @@ class Profile extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  handleChange = selectedOption => {
-    this.setState({ selectedOption });
-    console.log(`Option selected:`, selectedOption);
+  handleChangeTech = selectedTech => {
+    this.setState({ selectedTechSkills: selectedTech });
+    console.log(`Option selected:`, this.state.selectedTechSkills);
+  };
+  handleChangeSoft = selectedSoft => {
+    this.setState({ selectedSoftSkills: selectedSoft });
+    console.log(`Option selected:`, this.state.selectedSoftSkills);
   };
 
   onSubmit(e) {
@@ -77,7 +105,9 @@ class Profile extends Component {
     const updatedUser = {
       firstname: this.state.firstname,
       lastname: this.state.lastname,
-      email: this.state.email
+      email: this.state.email,
+      techSkills: this.state.selectedTechSkills.map(s => s.name),
+      softSkills: this.state.selectedSoftSkills.map(s => s.name)
     };
     this.props.updateUser(updatedUser, this.props.history);
     this.setState({ disable: true });
@@ -163,14 +193,27 @@ class Profile extends Component {
                   </FormGroup>
 
                   <Select
-                    value={selectedOption}
+                    value={this.state.selectedTechSkills}
                     isMulti
                     closeMenuOnSelect={false}
-                    onChange={this.handleChange}
+                    onChange={this.handleChangeTech}
                     isDisabled={this.state.disable}
-                    options={skillsList}
+                    options={techSkillsList}
                     className="basic-multi-select"
                     classNamePrefix="select"
+                    placeholder="Select technical skills..."
+                  />
+
+                  <Select
+                    value={this.state.selectedSoftSkills}
+                    isMulti
+                    closeMenuOnSelect={false}
+                    onChange={this.handleChangeSoft}
+                    isDisabled={this.state.disable}
+                    options={softSkillsList}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    placeholder="Select soft skills..."
                   />
 
                   <Col sm={{ size: 10, offset: 4 }}>

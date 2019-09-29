@@ -15,6 +15,12 @@ module.exports = {
     type: Number,
     required: true 
   },
+  techSkills:[{
+    type: String
+  }],
+  softSkills:[{
+    type: String
+  }],
   password: {
     type: String,
     required: true
