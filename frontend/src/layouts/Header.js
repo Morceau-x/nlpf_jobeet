@@ -80,7 +80,7 @@ class Header extends Component {
     const recruiterNav = (
       <Nav className="ml-auto" navbar>
         <NavItem>
-          <NavLink href="/enterprise">Enterprise</NavLink>
+          <NavLink href="/company">Company</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/notifications">Notifications</NavLink>
