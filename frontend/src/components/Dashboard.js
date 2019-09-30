@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import Offer from "./applicant/Offer"
 class Dashboard extends Component {
   render() {
     const { user } = this.props.auth;
-    console.log(user)
     return (
-      <div className="container h-100">
-        <div className="row h-100v justify-content-center align-items-center title-text">
-          Hello {user.firstname}
-        </div>
-      </div>
+      <Offer></Offer>
     );
   }
 }

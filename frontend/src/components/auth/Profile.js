@@ -74,7 +74,6 @@ class Profile extends Component {
           },
         )
       ))
-    //get skills list
     axios
       .get('/getSkillsList')
       .then(response => (
@@ -102,11 +101,11 @@ class Profile extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
   handleChangeTech = selectedTechSkills => {
-    this.setState({ selectedTechSkills: selectedTechSkills });
+    this.setState({ selectedTechSkills });
     console.log(`Tech Skills selected:`, this.state.selectedTechSkills);
   };
   handleChangeSoft = selectedSoftSkills => {
-    this.setState({ selectedSoftSkills: selectedSoftSkills });
+    this.setState({ selectedSoftSkills });
     console.log(`Soft Skills selected:`, this.state.selectedSoftSkills);
   };
   
