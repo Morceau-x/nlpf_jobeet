@@ -53,7 +53,7 @@ class Offers extends Component {
         return (
             <Card>
                 <CardBody>
-                    <Link to='/company/edit'>
+                    <Link to='/offer/create'>
                         <button type="button" className="btn btn-warning float-right">Create offer</button>
                     </Link>
                     <h4 className="card-title mb-5">Offers of the company</h4>

@@ -52,15 +52,15 @@ class Company extends Component {
                     </div>
                     <div className="col-12">
                         <ul className="nav nav-tabs">
-                            <li className="nav-item">
+                            <li className="nav-item col-4 p-0 m-0 text-center">
                                 <a className={"nav-link " + (this.state.current === "Offers" ? "active" : "")}
                                    onClick={() => this.companyFillZone("Offers")} href="#">Offers</a>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item col-4 p-0 m-0 text-center">
                                 <a className={"nav-link " + (this.state.current === "Recruiters" ? "active" : "")}
                                    onClick={() => this.companyFillZone("Recruiters")} href="#">Recruiters</a>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item col-4 p-0 m-0 text-center">
                                 <a className={"nav-link " + (this.state.current === "Applicants" ? "active" : "")}
                                    onClick={() => this.companyFillZone("Applicants")} href="#">Applicants</a>
                             </li>
