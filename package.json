@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/mern-stack/mern#readme",
   "dependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "jquery": "^3.4.1"
   }
 }
