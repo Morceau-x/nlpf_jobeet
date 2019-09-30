@@ -35,10 +35,12 @@ exports.login = (req, res) => {
 };
 
 exports.currentUser = (req, res) => {
-  return res.json({
-    id: req.user.id,
-    firstname: req.user.firstname,
-    lastname: req.user.lastname,
-    email: req.user.email
+  user.findOne({ email: req.body.email }).then(user => {
+    // Check for user
+    if (!user) {
+      // errors.email = "User not found";
+      return res.status(404).json("user not found");
+    }
+    return res.json(user)
   });
-};
+}
