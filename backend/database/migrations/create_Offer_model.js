@@ -28,6 +28,10 @@ module.exports = {
   applicants:[{//email
     type: String
   }],
+  matchPercentage: {
+    type: Number,
+    default: 0
+  },
   created_at: {
     type: Date,
     default: Date.now

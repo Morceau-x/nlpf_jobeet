@@ -23,12 +23,23 @@ router.get("/getSkillsList", (req, res) => {
   return controller.getSkillsList.getSkillsList(req, res);
 });
 
-router.get("/getAllOffers", (req, res) => {
-  return controller.getOffers.getAllOffers(req, res);
-});
-
 router.get("/offers/company", (req, res) => {
   return controller.getOffers.getCompanyOffers(req, res);
+});
+router.post("/getAllOffers", (req, res) => {
+  return controller.getOffers.getAllOffers(req, res);
+})
+
+router.post("/getOfferById", (req, res) => {
+  return controller.getOfferById.getOfferById(req, res);
+});
+
+router.post("/apply", (req, res) => {
+  return controller.applyToOffer.applyToOffer(req, res);
+});
+
+router.post("/removeCandidate", (req, res) => {
+  return controller.removeCandidate.removeCandidate(req, res);
 });
 
 router.get("/company", (req, res) => {
