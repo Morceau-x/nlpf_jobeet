@@ -17,6 +17,9 @@ import {
     FormFeedback,
     Input
 } from "reactstrap";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import axios from "axios";
 
 
 class Company extends Component {
@@ -31,6 +34,11 @@ class Company extends Component {
         this.companyFillZone = this.companyFillZone.bind(this)
     }
 
+    isRecruiter() {
+        const {isAuthenticated, user} = this.props.auth;
+        return isAuthenticated && user.role !== 1
+    }
+
     companyFillZone(next) {
         this.setState({current: next});
     }
@@ -42,9 +50,11 @@ class Company extends Component {
                     <div className="col-12 mb-5 mt-5">
                         <Card>
                             <CardBody>
-                                <Link to='/company/edit'>
-                                    <button type="button" className="btn btn-warning float-right">Edit</button>
-                                </Link>
+                                {this.isRecruiter() ?
+                                    <Link to='/company/edit'>
+                                        <button type="button" className="btn btn-warning float-right">Edit</button>
+                                    </Link> : <p></p>
+                                }
                                 <h4 className="card-title">{this.state.name}</h4>
                                 {this.state.description}
                             </CardBody>
@@ -56,14 +66,19 @@ class Company extends Component {
                                 <a className={"nav-link " + (this.state.current === "Offers" ? "active" : "")}
                                    onClick={() => this.companyFillZone("Offers")} href="#">Offers</a>
                             </li>
+                            {this.isRecruiter() ?
                             <li className="nav-item col-4 p-0 m-0 text-center">
                                 <a className={"nav-link " + (this.state.current === "Recruiters" ? "active" : "")}
                                    onClick={() => this.companyFillZone("Recruiters")} href="#">Recruiters</a>
                             </li>
+                                : <p></p>
+                            } {this.isRecruiter() ?
                             <li className="nav-item col-4 p-0 m-0 text-center">
                                 <a className={"nav-link " + (this.state.current === "Applicants" ? "active" : "")}
                                    onClick={() => this.companyFillZone("Applicants")} href="#">Applicants</a>
                             </li>
+                                : <p></p>
+                            }
                         </ul>
                     </div>
                     <div id="companyFillZone" className="col-12 mb-5">
@@ -76,4 +91,14 @@ class Company extends Component {
     }
 }
 
-export default Company;
+Company.propTypes = {
+    auth: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    {}
+)(Company);
