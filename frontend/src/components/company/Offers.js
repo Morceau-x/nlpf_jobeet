@@ -22,23 +22,30 @@ class Offers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            offers: []
+            offers: [],
+            company: this.props.company
         };
     }
 
     isRecruiter() {
         const {isAuthenticated, user} = this.props.auth;
-
         return isAuthenticated && user.role !== 1
     }
 
     componentWillMount() {
+        const {isAuthenticated, user} = this.props.auth;
+
+        let company = user.company;
+        if (user.company == null || user.company === "" || user.company === "none")
+            company = this.state.company;
+
+        if (company == null || company === "" || company === "none")
+            return;
 
         axios
-            .get('/offers/company')
+            .get('/offers/company?company=' + company)
             .then(response => {
                 this.setState({offers: response.data});
-                console.log(response.data);
             });
     }
 

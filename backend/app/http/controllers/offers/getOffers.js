@@ -10,11 +10,13 @@ exports.getAllOffers = (req, res) => {
 };
 
 exports.getCompanyOffers = (req, res) => {
- Offers.find({}).then(offer => {
-  if (!offer) {
+ Offers.find({}).then(offers => {
+  if (!offers) {
    return res.status(404).json("Offer not found");
   }
-  offer.filter(offer => offer.company === req.query.company);
-  return res.json(offer)
+
+  offers = offers.filter(offer => offer.company === req.query.company);
+  console.log(offers);
+  return res.json(offers)
  })
 };

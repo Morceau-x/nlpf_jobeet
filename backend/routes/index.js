@@ -31,4 +31,13 @@ router.get("/offers/company", (req, res) => {
   return controller.getOffers.getCompanyOffers(req, res);
 });
 
+router.get("/company", (req, res) => {
+  return controller.getCompany.getCompany(req, res);
+});
+
+router.get("/companies", (req, res) => {
+  return controller.getCompany.getAllCompanies(req, res);
+});
+
+
 module.exports = router;

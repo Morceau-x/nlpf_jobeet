@@ -9,9 +9,9 @@ const helmet = require("helmet");
 const path = require("path");
 const passport = require("passport");
 
-var initSkills = require('./app/http/controllers/skills/initController')
-var initOffers = require('./app/http/controllers/offers/initController')
-
+var initSkills = require('./app/http/controllers/skills/initController');
+var initOffers = require('./app/http/controllers/offers/initController');
+var initCompany = require('./app/http/controllers/company/CompanyInitController');
 
 const app = new express();
 // Boot Application
@@ -36,5 +36,5 @@ app.use("/", routes);
 // connect to database
 mongoose
   .connect(database.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true})
-  .then(() => console.log("MongoDB Connected"), initSkills.init(), initOffers.init())
+  .then(() => console.log("MongoDB Connected"), initSkills.init(), initOffers.init(), initCompany.init())
   .catch(err => console.log(err));

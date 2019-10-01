@@ -25,10 +25,12 @@ import axios from "axios";
 class Company extends Component {
     constructor(props) {
         super(props);
+        const query = new URLSearchParams(this.props.location.search);
         this.state = {
-            name: "Company name",
-            description: "Company description",
-            current: "Offers"
+            name: this.props.name,
+            description: this.props.description,
+            current: "Offers",
+            company: query.get('company')
         };
 
         this.companyFillZone = this.companyFillZone.bind(this)
@@ -39,11 +41,32 @@ class Company extends Component {
         return isAuthenticated && user.role !== 1
     }
 
+    componentWillMount() {
+        const {isAuthenticated, user} = this.props.auth;
+        let company = user.company;
+        if (user.company == null || user.company === "" || user.company === "none")
+            company = this.state.company;
+
+        console.log("test:" + company);
+        axios
+            .get('/company?company=' + company)
+            .then(response => {
+                console.log(response);
+                if (response != null && response.data != null) {
+                    this.setState({
+                        name: response.data.name,
+                        description: response.data.description
+                    });
+                }
+            });
+    }
+
     companyFillZone(next) {
         this.setState({current: next});
     }
 
     render() {
+        const {isAuthenticated, user} = this.props.auth;
         return (
             <div className="container h-100 w-100">
                 <div className="row w6100">
@@ -82,7 +105,7 @@ class Company extends Component {
                         </ul>
                     </div>
                     <div id="companyFillZone" className="col-12 mb-5">
-                        {this.state.current === "Offers" ? <Offers/> : (this.state.current === "Recruiters" ?
+                        {this.state.current === "Offers" ? <Offers company={this.state.company} /> : (this.state.current === "Recruiters" ?
                             <Recruiters/> : <Applicants/>)}
                     </div>
                 </div>

@@ -28,6 +28,11 @@ module.exports = {
   avatar: {
     type: String
   },
+  company: {
+    type: String,
+    required: true,
+    default: "none"
+  },
   created_at: {
     type: Date,
     default: Date.now

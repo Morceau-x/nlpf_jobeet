@@ -15,11 +15,12 @@ exports.update = (req, res) => {
     // errors.email = "User not found";
     return res.status(404).json("user not found");
   }
-  user.firstname = req.body.firstname
-  user.lastname = req.body.lastname
-  user.techSkills = req.body.techSkills
-  user.softSkills = req.body.softSkills
-  console.log(req.body)
+  user.firstname = req.body.firstname;
+  user.lastname = req.body.lastname;
+  user.techSkills = req.body.techSkills;
+  user.softSkills = req.body.softSkills;
+  user.company = req.body.company;
+  console.log(req.body);
   user
         .save()
         .then(user => res.json("User updated successfully"))
