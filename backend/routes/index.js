@@ -23,4 +23,8 @@ router.get("/getSkillsList", (req, res) => {
   return controller.getSkillsList.getSkillsList(req, res);
 })
 
+router.get("/getAllOffers", (req, res) => {
+  return controller.getAllOffers.getAllOffers(req, res);
+})
+
 module.exports = router;

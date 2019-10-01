@@ -10,6 +10,8 @@ const path = require("path");
 const passport = require("passport");
 
 var initSkills = require('./app/http/controllers/skills/initController')
+var initOffers = require('./app/http/controllers/offers/initController')
+
 
 const app = new express();
 // Boot Application
@@ -33,6 +35,6 @@ require("./config/passport")(passport);
 app.use("/", routes);
 // connect to database
 mongoose
-  .connect(database.mongoUri, { useNewUrlParser: true })
-  .then(() => console.log("MongoDB Connected"), initSkills.init())
+  .connect(database.mongoUri, { useNewUrlParser: true, useUnifiedTopology: true})
+  .then(() => console.log("MongoDB Connected"), initSkills.init(), initOffers.init())
   .catch(err => console.log(err));
