@@ -21,10 +21,14 @@ router.post("/update", (req, res) => {
 
 router.get("/getSkillsList", (req, res) => {
   return controller.getSkillsList.getSkillsList(req, res);
-})
+});
 
 router.get("/getAllOffers", (req, res) => {
-  return controller.getAllOffers.getAllOffers(req, res);
-})
+  return controller.getOffers.getAllOffers(req, res);
+});
+
+router.get("/offers/company", (req, res) => {
+  return controller.getOffers.getCompanyOffers(req, res);
+});
 
 module.exports = router;
