@@ -13,6 +13,8 @@ import {
     Input
 } from "reactstrap";
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
 
 class EditCompany extends Component {
@@ -25,6 +27,16 @@ class EditCompany extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    isRecruiter() {
+        const {isAuthenticated, user} = this.props.auth;
+        return isAuthenticated && user.role !== 1
+    }
+
+    componentWillMount() {
+        if (!this.isRecruiter())
+            this.props.history.push("/")
     }
 
     onSubmit(e) {
@@ -84,4 +96,15 @@ class EditCompany extends Component {
     }
 }
 
-export default EditCompany;
+
+EditCompany.propTypes = {
+    auth: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    {}
+)(EditCompany);
