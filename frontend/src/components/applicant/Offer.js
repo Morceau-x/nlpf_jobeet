@@ -40,6 +40,7 @@ class Offer extends Component {
                         shortDesc: res.data.shortDesc,
                         fullDesc: res.data.fullDesc,
                         askedSkills: res.data.askedSkills,
+                        hiddenSkills: res.data.hiddenSkills,
                         applicants: res.data.applicants
                     }
                 )

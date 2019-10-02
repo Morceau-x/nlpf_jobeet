@@ -55,6 +55,14 @@ class Login extends Component {
     this.props.loginUser(userData);
   }
 
+   onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }
+
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -104,6 +112,8 @@ class Login extends Component {
                   <FormGroup check row>
                     <Col sm={{ size: 10, offset: 4 }}>
                       <Button color="primary">Login</Button>
+                      <div className="g-signin2 mt-2" data-onsuccess="onSignIn"></div>
+
                     </Col>
                   </FormGroup>
                 </Form>
