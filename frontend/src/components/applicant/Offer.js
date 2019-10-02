@@ -7,7 +7,6 @@ import axios from "axios";
 import { Button } from 'reactstrap';
 
 
-
 class Offer extends Component {
     constructor() {
         super();
@@ -27,9 +26,10 @@ class Offer extends Component {
 
     componentWillMount() {
         const { isAuthenticated, user } = this.props.auth;
+        const query = new URLSearchParams(this.props.location.search);
         axios
             .post('/getOfferById', {
-                id: this.props.location.state.id
+                id: query.get('id')
             })
             .then(res => (
                 this.setState(
