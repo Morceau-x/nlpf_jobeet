@@ -19,8 +19,7 @@ import {
 } from "reactstrap";
 import {updateUser} from "../../actions/authActions";
 
-let techSkillsList = [];
-let softSkillsList = [];
+
 
 class Profile extends Component {
 
@@ -30,8 +29,8 @@ class Profile extends Component {
         const query = new URLSearchParams(this.props.location.search);
         this.state = {
             errors: {},
-            selectedTechSkills: [],
-            selectedSoftSkills: [],
+            techSkillsList : [],
+            softSkillsList : [],
             };
 
     }
@@ -42,18 +41,10 @@ class Profile extends Component {
         axios
             .get('/getSkillsList')
             .then(response => (
-                techSkillsList = response.data.filter(s => s.type === 1).map(s => {
-                    const skill = {};
-                    skill.label = s.name;
-                    skill.value = s.name;
-                    return skill;
-                }),
-                    softSkillsList = response.data.filter(s => s.type === 2).map(s => {
-                        const skill = {};
-                        skill.label = s.name;
-                        skill.value = s.name;
-                        return skill;
-                    })
+                this.setState({
+                    techSkillsList : response.data.filter(s => s.type === 1),
+                    softSkillsList : response.data.filter(s => s.type === 2)
+                })  
             ))
     }
 
@@ -77,7 +68,6 @@ class Profile extends Component {
     }
 
     render() {
-        const {selectedTechSkills, selectedSoftSkills} = this.state;
         const {errors} = this.state;
         const {isAuthenticated, user} = this.props.auth;
 
@@ -114,7 +104,7 @@ class Profile extends Component {
 
                                     <FormGroup>
                                         <ul>
-                                            {techSkillsList.map((item, index) => (
+                                            {this.state.techSkillsList.map((item, index) => (
                                                 <li key={index} item = {item.name} />
                                             ))}
                                         </ul>
@@ -122,7 +112,7 @@ class Profile extends Component {
 
                                     <FormGroup>
                                         <ul>
-                                            {softSkillsList.map((item, index) => (
+                                            {this.state.softSkillsList.map((item, index) => (
                                                 <li key={index} item = {item.name} />
                                             ))}
                                         </ul>
