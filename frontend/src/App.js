@@ -18,6 +18,7 @@ import Profile from "./components/auth/Profile"
 import Company from "./components/company/Company";
 import EditCompany from "./components/company/EditCompany";
 import Offer  from "./components/applicant/Offer"
+import Skills from "./components/admin/skills";
 
 const SweetAlert = require("react-bootstrap-sweetalert");
 // Check for token
@@ -57,6 +58,7 @@ class App extends Component {
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <PrivateRoute exact path="/offer" component={Offer} />
+              <PrivateRoute exact path="/skills" component={Skills} />
             </Switch>
             {/* <Footer /> */}
           </div>
