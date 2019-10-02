@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
+import {Link, Route} from "react-router-dom";
 import axios from "axios";
 
 
-import { Button } from 'reactstrap';
+import {Button} from 'reactstrap';
 
 
 class Offer extends Component {
@@ -25,7 +26,7 @@ class Offer extends Component {
     }
 
     componentWillMount() {
-        const { isAuthenticated, user } = this.props.auth;
+        const {isAuthenticated, user} = this.props.auth;
         const query = new URLSearchParams(this.props.location.search);
         axios
             .post('/getOfferById', {
@@ -50,7 +51,7 @@ class Offer extends Component {
 
 
     applyOffer = () => {
-        const { isAuthenticated, user } = this.props.auth;
+        const {isAuthenticated, user} = this.props.auth;
         axios
             .post('/apply', {
                 id: this.state.offerID,
@@ -58,16 +59,16 @@ class Offer extends Component {
             })
             .then(res => (
                 console.log(res),
-                this.setState(
-                    {
-                        applicants: res.data,
-                    }
-                )
+                    this.setState(
+                        {
+                            applicants: res.data,
+                        }
+                    )
             ))
     }
 
     removeCandidate = () => {
-        const { isAuthenticated, user } = this.props.auth;
+        const {isAuthenticated, user} = this.props.auth;
         console.log(this.offerID)
         axios
             .post('/removeCandidate', {
@@ -76,16 +77,16 @@ class Offer extends Component {
             })
             .then(res => (
                 console.log(res),
-                this.setState(
-                    {
-                        applicants: res.data,
-                    }
-                )
+                    this.setState(
+                        {
+                            applicants: res.data,
+                        }
+                    )
             ))
     }
 
     render() {
-        const { isAuthenticated, user } = this.props.auth;
+        const {isAuthenticated, user} = this.props.auth;
         console.log(this.state.applicants.includes(user.email))
         const removeApply = (
             <Button onClick={this.removeCandidate} color="danger">
@@ -112,10 +113,12 @@ class Offer extends Component {
                     </div>
                     <div className="col-8">
                         <h2 className="display-4">{this.state.offerName}</h2>
-                        <h2 className="display-5">{this.state.company}</h2>
+                        <Link to={"/company?company=" + this.state.company}>
+                            <h2 className="display-5">{this.state.company}</h2>
+                        </Link>
                         <p>Ajoutée par {this.state.recruiter}</p>
                         <p className="lead">{this.state.shortDesc}</p>
-                        <hr className="my-2" />
+                        <hr className="my-2"/>
                         <p>{this.state.fullDesc}</p>
                         <p className="lead">
                             {(this.state.applicants.includes(user.email)) ? removeApply : beCandidate}
