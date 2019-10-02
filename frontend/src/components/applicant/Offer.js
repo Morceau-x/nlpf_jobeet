@@ -34,6 +34,7 @@ class Offer extends Component {
             .then(res => (
                 this.setState(
                     {
+                        offerID: query.get('id'),
                         offerName: res.data.offerName,
                         company: res.data.company,
                         recruiter: res.data.recruiter,
@@ -52,7 +53,7 @@ class Offer extends Component {
         const { isAuthenticated, user } = this.props.auth;
         axios
             .post('/apply', {
-                id: this.props.location.state.id,
+                id: this.state.offerID,
                 applicantEmail: user.email
             })
             .then(res => (
@@ -67,9 +68,10 @@ class Offer extends Component {
 
     removeCandidate = () => {
         const { isAuthenticated, user } = this.props.auth;
+        console.log(this.offerID)
         axios
             .post('/removeCandidate', {
-                id: this.props.location.state.id,
+                id: this.state.offerID,
                 applicantEmail: user.email
             })
             .then(res => (
