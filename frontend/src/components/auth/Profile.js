@@ -27,8 +27,9 @@ let companyList = [];
 class Profile extends Component {
 
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        const query = new URLSearchParams(this.props.location.search);
         this.state = {
             email: "",
             firstname: "",
@@ -40,8 +41,10 @@ class Profile extends Component {
                 label: "",
                 value: ""
             },
+            userParam: query.get('email'),
             selectedTechSkills: [],
             selectedSoftSkills: [],
+            otherProfile: false
         };
 
         this.onChange = this.onChange.bind(this);
@@ -59,14 +62,12 @@ class Profile extends Component {
             .get('/companies')
             .then(response => {
                 if (response != null && response.data != null) {
-                    console.log(response.data);
                     companyList = response.data.map(company => {
                         const item = {};
                         item.label = company.name;
                         item.value = company.name;
                         return item;
                     });
-                    console.log(companyList)
                 }
             });
     }
@@ -74,14 +75,27 @@ class Profile extends Component {
     componentWillMount() {
         const {isAuthenticated, user} = this.props.auth;
 
+        if (!isAuthenticated)
+            return;
+
+        let email = this.state.userParam;
+        let other = true;
+        if (email === user.email || email == null || email === "") {
+            email = user.email;
+            other = false;
+        } else if (user.role === 1)
+            return;
+
         this.getAllCompanies();
 
         axios
             .post('/current', {
-                    email: user.email
+                    email: email
                 }
             )
             .then(res => {
+                if (res.data.role > user.role)
+                    return;
                 let companyItem = {
                     label: (res.data.company === "none" ? "" : res.data.company),
                     value: (res.data.company === "none" ? "" : res.data.company)
@@ -104,7 +118,8 @@ class Profile extends Component {
                             skill.value = s;
                             return skill;
                         }),
-                        company: companyItem
+                        company: companyItem,
+                        otherProfile: other
                     }
                 )
             });
@@ -152,7 +167,6 @@ class Profile extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        console.log(this.state);
         const updatedUser = {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
@@ -161,8 +175,7 @@ class Profile extends Component {
             softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.name) : [],
             company: this.state.company.label
         };
-        console.log(updatedUser);
-        this.props.updateUser(updatedUser, this.props.history);
+        this.props.updateUser(updatedUser, this.props);
         this.setState({disable: true});
     }
 
@@ -288,12 +301,13 @@ class Profile extends Component {
                                         /> :
                                         <p></p>
                                     }
-
-                                    <Col sm={{size: 10, offset: 4}} className="mt-5">
-                                        <Button className="mr-5" onClick={this.editProfile}
-                                                disabled={!this.state.disable} color="primary">Edit</Button>
-                                        <Button disabled={this.state.disable} color="success">Save</Button>
-                                    </Col>
+                                    {this.state.otherProfile ? <p></p> :
+                                        <Col sm={{size: 10, offset: 4}} className="mt-5">
+                                            <Button className="mr-5" onClick={this.editProfile}
+                                                    disabled={!this.state.disable} color="primary">Edit</Button>
+                                            <Button disabled={this.state.disable} color="success">Save</Button>
+                                        </Col>
+                                    }
                                 </Form>
 
                                 {/* Form Ends Here */}

@@ -47,11 +47,9 @@ class Company extends Component {
         if (user.company == null || user.company === "" || user.company === "none")
             company = this.state.company;
 
-        console.log("test:" + company);
         axios
             .get('/company?company=' + company)
             .then(response => {
-                console.log(response);
                 if (response != null && response.data != null) {
                     this.setState({
                         name: response.data.name,
@@ -106,7 +104,7 @@ class Company extends Component {
                     </div>
                     <div id="companyFillZone" className="col-12 mb-5">
                         {this.state.current === "Offers" ? <Offers company={this.state.company} /> : (this.state.current === "Recruiters" ?
-                            <Recruiters/> : <Applicants/>)}
+                            <Recruiters company={this.state.company} /> : <Applicants/>)}
                     </div>
                 </div>
             </div>

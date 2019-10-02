@@ -39,5 +39,10 @@ router.get("/companies", (req, res) => {
   return controller.getCompany.getAllCompanies(req, res);
 });
 
+router.get("/recruiters", (req, res) => {
+  return controller.getUsers.getRecruiters(req, res);
+});
+
+
 
 module.exports = router;
