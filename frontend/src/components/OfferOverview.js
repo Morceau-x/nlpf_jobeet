@@ -24,7 +24,7 @@ class OfferOverview extends Component {
                 <div className="card-body">
                     <h5 className="card-title">{this.props.offer.offerName}</h5>
                     <p className="card-text">{this.props.offer.shortDesc}</p>
-                    <a className="btn btn-primary" onClick={this.handleClick}>See offer</a>
+                    <button className="btn btn-primary" onClick={this.handleClick}>See offer</button>
                 </div>
             </div>
         );
