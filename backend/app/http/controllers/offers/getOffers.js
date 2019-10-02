@@ -3,8 +3,9 @@ const Offers = require("../../../models/Offers");
 exports.getAllOffers = (req, res) => {
  Offers.find({}).then(offer => {
   if (!offer) {
-   return res.status(404).json("skills not found");
+   return res.status(404).json("No offers were found");
   }
+  
   return res.json(offer)
  })
 };
@@ -20,3 +21,12 @@ exports.getCompanyOffers = (req, res) => {
   return res.json(offers)
  })
 };
+exports.getOfferById = (req, res) => {
+  //console.log(req.body)
+  Offers.findById(req.body.id).then(offer => {
+   if (!offer) {
+    return res.status(404).json("Offer not found");
+   }
+   return res.json(offer)
+  })
+ };

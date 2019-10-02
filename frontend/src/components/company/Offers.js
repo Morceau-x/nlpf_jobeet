@@ -16,6 +16,8 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import Register from "../auth/Register";
+//import $ from 'jquery';
 
 
 class Offers extends Component {
