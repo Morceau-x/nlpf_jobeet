@@ -21,9 +21,10 @@ exports.getAllOffers = (req, res) => {
       let newObj = JSON.parse(JSON.stringify(offer));
 
       let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x))
+      console.log(matchedSkills)
       let matchScore = Math.round((matchedSkills.length / offer.askedSkills.length) * 100)
       newObj['matchScore'] = matchScore
-      console.log(newObj)
+      console.log(matchScore)
       out.push(newObj)
     });
 
