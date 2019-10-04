@@ -21,6 +21,7 @@ class Offer extends Component {
             askedSkills: [],
             hiddenSkills: [],
             applicants: [],
+            matchScore: 0,
             errors: {},
         };
     }
@@ -43,7 +44,8 @@ class Offer extends Component {
                         fullDesc: res.data.fullDesc,
                         askedSkills: res.data.askedSkills,
                         hiddenSkills: res.data.hiddenSkills,
-                        applicants: res.data.applicants
+                        applicants: res.data.applicants,
+                        matchScore : res.data.matchPercentage
                     }
                 )
             ))
@@ -112,7 +114,7 @@ class Offer extends Component {
                         </ul>
                     </div>
                     <div className="col-8">
-                        <h2 className="display-4">{this.state.offerName}</h2>
+                        <h2 className="display-4">{this.state.offerName} - {this.state.matchScore}%</h2>
                         <Link to={"/company?company=" + this.state.company}>
                             <h2 className="display-5">{this.state.company}</h2>
                         </Link>

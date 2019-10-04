@@ -18,17 +18,15 @@ exports.getAllOffers = (req, res) => {
     let user = result.user
     let userSkills = [].concat(user.techSkills).concat(user.softSkills)
     offers.forEach(function (offer) {
-      let newObj = JSON.parse(JSON.stringify(offer));
+      //let newObj = JSON.parse(JSON.stringify(offer));
 
       let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x))
-      console.log(matchedSkills)
       let matchScore = Math.round((matchedSkills.length / offer.askedSkills.length) * 100)
-      newObj['matchScore'] = matchScore
-      console.log(matchScore)
-      out.push(newObj)
+      offer['matchPercentage'] = matchScore
+      offer.save();
     });
 
-    return res.json(out);
+    return res.json(offers);
   }).catch(err => {
     console.error(err)
   });
