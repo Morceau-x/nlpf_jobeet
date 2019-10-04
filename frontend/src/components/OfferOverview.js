@@ -20,7 +20,7 @@ class OfferOverview extends Component {
 
         return (
             <div className="card bg-light mb-3" style={{ maxWidth: 18 + 'rem' }}>
-                <div className="card-header">{this.props.offer.company}</div>
+                <div className="card-header">{this.props.offer.company} - {this.props.offer.matchScore}%</div>
                 <div className="card-body">
                     <h5 className="card-title">{this.props.offer.offerName}</h5>
                     <p className="card-text">{this.props.offer.shortDesc}</p>

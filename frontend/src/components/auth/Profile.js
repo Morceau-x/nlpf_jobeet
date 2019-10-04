@@ -171,10 +171,11 @@ class Profile extends Component {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             email: this.state.email,
-            techSkills: this.state.selectedTechSkills ? this.state.selectedTechSkills.map(s => s.name) : [],
-            softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.name) : [],
+            techSkills: this.state.selectedTechSkills ? this.state.selectedTechSkills.map(s => s.label) : [],
+            softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.label) : [],
             company: this.state.company.label
         };
+        console.log(updatedUser)
         this.props.updateUser(updatedUser, this.props);
         this.setState({disable: true});
     }

@@ -25,6 +25,7 @@ class Dashboard extends Component {
         email: user.email
       })
       .then(response => (
+        console.log(response),
         this.setState({
           offersList: response.data
         }),
