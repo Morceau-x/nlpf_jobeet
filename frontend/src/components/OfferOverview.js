@@ -25,6 +25,7 @@ class OfferOverview extends Component {
                     <h5 className="card-title">{this.props.offer.offerName}</h5>
                     <p className="card-text">{this.props.offer.shortDesc}</p>
                     <button className="btn btn-primary" onClick={this.handleClick}>See offer</button>
+                    <span>{new Date(this.props.offer.created_at).toLocaleDateString("fr-FR")}</span>
                 </div>
             </div>
         );
