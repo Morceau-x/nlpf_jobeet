@@ -14,7 +14,8 @@ class Dashboard extends Component {
       offersList: [],
       displayedList: [],
       itemsCountPerPage: 6,
-      activePage: 1
+      activePage: 1,
+      sortOrder: "high"
     };
     this.setItemCount = this.setItemCount.bind(this);
   }
@@ -29,18 +30,15 @@ class Dashboard extends Component {
         this.setState({
           offersList: response.data
         }),
-        this.handlePageChange(1)
+        this.sortOffers(this.state.sortOrder)
       ))
   }
 
   setItemCount = (e) => {
-    console.log("value", Number(e.target.value))
     this.setState({ itemsCountPerPage: Number(e.target.value) })
     let startIndex = Number(e.target.value) * (this.state.activePage - 1);
     let buffArray = [].concat(this.state.offersList);
     this.setState({ displayedList: buffArray.splice(startIndex, Number(e.target.value)) });
-    console.log("After", this.state)
-
   }
 
   handlePageChange = (pageNumber) => {
@@ -51,17 +49,55 @@ class Dashboard extends Component {
     this.setState({ displayedList: buffArray.splice(startIndex, this.state.itemsCountPerPage) });
   }
 
+  sortOffers = (e) => {
+    if (e === "high" || e.target.value === "high") {
+      this.setState({
+        sortOrder: "high",
+        offersList: this.state.offersList.sort((a, b) => (a.matchPercentage > b.matchPercentage) ? -1 : 1)
+      })
+      let startIndex = this.state.itemsCountPerPage * (this.state.activePage - 1);
+      let buffArray = [].concat(this.state.offersList);
+      this.setState({ displayedList: buffArray.splice(startIndex, this.state.itemsCountPerPage) });
+    }
+    else if (e === "low" || e.target.value === "low") {
+      this.setState({
+        sortOrder: "low",
+        offersList: this.state.offersList.sort((a, b) => (a.matchPercentage > b.matchPercentage) ? 1 : -1)
+      })
+      let startIndex = this.state.itemsCountPerPage * (this.state.activePage - 1);
+      let buffArray = [].concat(this.state.offersList);
+      this.setState({ displayedList: buffArray.splice(startIndex, this.state.itemsCountPerPage) });
+    }
+    else {
+      this.setState({
+        sortOrder: "last",
+        offersList: this.state.offersList.sort((a, b) => (new Date(a.created_at) > new Date(b.created_at)) ? -1 : 1)
+      })
+    }
+  }
+
+
   render() {
     return (
       <div className="container">
-        <div className="dropdown">
-          Show
+        <div className="row ">
+          <div className="col-4 dropdown">
+            Sort by
+           <select className="ml-1 mr-1" id="lang" onChange={this.sortOffers} value={this.state.sortOrder}>
+              <option value="high">Highest Match Percentage</option>
+              <option value="low">Lowest Match Percentage</option>
+              <option value="last">Last added</option>
+            </select>
+          </div>
+          <div className="ml-auto dropdown">
+            Show
            <select className="ml-1 mr-1" id="lang" onChange={this.setItemCount} value={this.state.itemsCountPerPage}>
-            <option value="6">6</option>
-            <option value="12">12</option>
-            <option value="24">24</option>
-          </select>
-          entries
+              <option value="6">6</option>
+              <option value="12">12</option>
+              <option value="24">24</option>
+            </select>
+            entries
+        </div>
         </div>
         <div className="row mt-2">
           {this.state.displayedList.map((item, index) => (
