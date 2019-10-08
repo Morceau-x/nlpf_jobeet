@@ -16,6 +16,8 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import Pagination from "react-js-pagination";
+import OfferOverview from "../OfferOverview"
 import Register from "../auth/Register";
 //import $ from 'jquery';
 
@@ -25,8 +27,13 @@ class Offers extends Component {
         super(props);
         this.state = {
             offers: [],
-            company: this.props.company
+            display: [],
+            company: this.props.company,
+            nbPerPage: 6,
+            activePage: 1
         };
+
+        this.onPageChange = this.onPageChange.bind(this);
     }
 
     isRecruiter() {
@@ -48,31 +55,18 @@ class Offers extends Component {
             .get('/offers/company?company=' + company)
             .then(response => {
                 this.setState({offers: response.data});
+                this.onPageChange(1);
             });
     }
 
-    static makeCard(data) {
-        return (
-            <div className="col-lg-4 col-md-6 mb-4">
-                <Card id={data._id} className="btn btn-outline-dark text-left">
-                    <CardBody>
-                        <h5 className="card-title">{data.offerName}</h5>
-                        {data.shortDesc}
-                    </CardBody>
-                </Card>
-            </div>
-        )
+    onPageChange(pageNumber) {
+        this.setState({activePage: pageNumber});
+        let startIndex = this.state.nbPerPage * (pageNumber - 1);
+        let buffArray = [].concat(this.state.offers);
+        this.setState({display: buffArray.splice(startIndex, this.state.nbPerPage)});
     }
 
     render() {
-
-        const items = [];
-
-        for (let i = 0; i < this.state.offers.length; i++) {
-            let data = this.state.offers[i];
-            items.push(Offers.makeCard(data))
-        }
-
         return (
             <Card>
                 <CardBody>
@@ -84,8 +78,22 @@ class Offers extends Component {
 
                     <h4 className="card-title mb-5">Offers of the company</h4>
                     <div className="row">
-                        {items}
+                        {this.state.display.map((item) => (
+                            <OfferOverview key={item._id} offer={item}/>
+                        ))}
                     </div>
+                    <Pagination linkClass="page-link"
+                                itemClass="page-item"
+                                prevPageText="<"
+                                firstPageText="<<"
+                                nextPageText=">"
+                                lastPageText=">>"
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.nbPerPage}
+                                totalItemsCount={this.state.offers.length}
+                                pageRangeDisplayed={3}
+                                onChange={this.onPageChange}
+                    />
                 </CardBody>
             </Card>
         );

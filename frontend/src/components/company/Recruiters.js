@@ -1,29 +1,21 @@
 import React, {Component} from "react";
 
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Col,
-    Button,
-    Form,
-    FormGroup,
-    Label,
-    FormFeedback,
-    Input
-} from "reactstrap";
-import Register from "../auth/Register";
-import {Link, Route} from "react-router-dom";
+import {Card, CardBody} from "reactstrap";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
+import ProfileOverview from "../ProfileOverview"
+import Pagination from "react-js-pagination";
 
 class Recruiters extends Component {
     constructor(props) {
         super(props);
         this.state = {
             company: this.props.company,
-            recruiters: []
+            recruiters: [],
+            display: [],
+            nbPerPage: 6,
+            activePage: 1
         };
     }
 
@@ -44,37 +36,28 @@ class Recruiters extends Component {
             });
     }
 
-    static makeCard(data) {
-        return (
-            <div className="col-lg-4 col-md-6 mb-4">
-                <Link to={"/profile?email=" + data.email}>
-                    <Card id={data.email} className="btn btn-outline-dark text-left">
-                        <CardBody>
-                            <h5 className="card-title">{data.email}</h5>
-                            {data.firstname + " " + data.lastname}
-                        </CardBody>
-                    </Card>
-                </Link>
-            </div>
-        )
-    }
-
     render() {
-
-        const items = [];
-
-        for (let i = 0; i < this.state.recruiters.length; i++) {
-            let data = this.state.recruiters[i];
-            items.push(Recruiters.makeCard(data))
-        }
-
         return (
             <Card>
                 <CardBody>
-                    <h4 className="card-title mb-5">Recuiters of the company</h4>
+                    <h4 className="card-title mb-5">Recruiters of the company</h4>
                     <div className="row">
-                        {items}
+                        {this.state.recruiters.map((item) => (
+                            <ProfileOverview key={item.email} email={item.email}/>
+                        ))}
                     </div>
+                    <Pagination linkClass="page-link"
+                                itemClass="page-item"
+                                prevPageText="<"
+                                firstPageText="<<"
+                                nextPageText=">"
+                                lastPageText=">>"
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.nbPerPage}
+                                totalItemsCount={this.state.recruiters.length}
+                                pageRangeDisplayed={3}
+                                onChange={this.onPageChange}
+                    />
                 </CardBody>
             </Card>
         );

@@ -30,6 +30,8 @@
   "dependencies": {
     "concurrently": "^4.1.0",
     "jquery": "^3.4.1",
-    "react-js-pagination": "^3.0.2"
+    "react-js-pagination": "^3.0.2",
+    "redux-devtools": "^3.5.0",
+    "redux-devtools-extension": "^2.13.8"
   }
 }

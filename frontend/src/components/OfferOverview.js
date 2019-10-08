@@ -1,30 +1,33 @@
-import React, { Component } from "react";
-import { Redirect, Route, Switch } from "react-router"
+import React, {Component} from "react";
+import {Redirect, Route, Switch} from "react-router"
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import { withRouter } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 
 class OfferOverview extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            offer: this.props.offer
         };
-    }
-
-    handleClick = () => {
-        this.props.history.push("/offer?id=" + this.props.offer._id);
     }
 
     render() {
 
         return (
-            <div className="card bg-light mb-3" style={{ maxWidth: 18 + 'rem' }}>
-                <div className="card-header">{this.props.offer.company}</div>
-                <div className="card-body">
-                    <h5 className="card-title">{this.props.offer.offerName}</h5>
-                    <p className="card-text">{this.props.offer.shortDesc}</p>
-                    <button className="btn btn-primary" onClick={this.handleClick}>See offer</button>
+            <div className="col-lg-4 col-md-6 mb-4">
+                <div className="card bg-light h-100 ">
+                    <div className="card-header">{this.state.offer.company}</div>
+                    <div className="d-flex flex-column card-body">
+                        <h5 className="card-title mt-2">{this.state.offer.offerName}</h5>
+                        <p className="card-text mt-2">{this.state.offer.shortDesc}</p>
+                        <div className="mt-auto">
+                            <Link to={"/offer?id=" + this.state.offer._id}>
+                                <button className="btn btn-primary">See offer</button>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

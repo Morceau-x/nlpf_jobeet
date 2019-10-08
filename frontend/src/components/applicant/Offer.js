@@ -116,7 +116,7 @@ class Offer extends Component {
                         <Link to={"/company?company=" + this.state.company}>
                             <h2 className="display-5">{this.state.company}</h2>
                         </Link>
-                        <p>Ajoutée par {this.state.recruiter}</p>
+                        <p>Added by {this.state.recruiter}</p>
                         <p className="lead">{this.state.shortDesc}</p>
                         <hr className="my-2"/>
                         <p>{this.state.fullDesc}</p>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
+import {connect, Provider} from "react-redux";
 import jwt_decode from "jwt-decode";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser, logoutUser } from "./actions/authActions";
@@ -18,7 +18,9 @@ import Profile from "./components/auth/Profile"
 import Company from "./components/company/Company";
 import EditCompany from "./components/company/EditCompany";
 import Offer  from "./components/applicant/Offer"
+import PropTypes from "prop-types";
 
+console.disableYellowBox = true;
 const SweetAlert = require("react-bootstrap-sweetalert");
 // Check for token
 if (localStorage.jwtToken) {
@@ -40,6 +42,7 @@ if (localStorage.jwtToken) {
     window.location.href = "/login";
   }
 }
+
 class App extends Component {
   render() {
     return (
@@ -51,12 +54,12 @@ class App extends Component {
             <Route exact path="/" component={Welcome} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/company" component={Company} />
-            <Route exact path="/company/edit" component={EditCompany} />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
               <PrivateRoute exact path="/profile" component={Profile} />
               <PrivateRoute exact path="/offer" component={Offer} />
+              <PrivateRoute exact path="/company" component={Company} />
+              <PrivateRoute exact path="/company/edit" component={EditCompany} />
             </Switch>
             {/* <Footer /> */}
           </div>
@@ -65,5 +68,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;
