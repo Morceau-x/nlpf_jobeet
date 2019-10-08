@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import Select from "react-select";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ import {
     FormFeedback,
     Input
 } from "reactstrap";
-import {updateUser} from "../../actions/authActions";
+import { updateUser } from "../../actions/authActions";
 
 let techSkillsList = [];
 let softSkillsList = [];
@@ -53,7 +53,7 @@ class Profile extends Component {
     }
 
     isRecruiter() {
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
         return isAuthenticated && user.role !== 1
     }
 
@@ -73,7 +73,7 @@ class Profile extends Component {
     }
 
     componentWillMount() {
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
 
         if (!isAuthenticated)
             return;
@@ -90,8 +90,8 @@ class Profile extends Component {
 
         axios
             .post('/current', {
-                    email: email
-                }
+                email: email
+            }
             )
             .then(res => {
                 if (res.data.role > user.role)
@@ -107,16 +107,23 @@ class Profile extends Component {
                         lastname: res.data.lastname,
                         role: res.data.role,
                         selectedTechSkills: res.data.techSkills.map(s => {
-                            const skill = {};
-                            skill.label = s;
-                            skill.value = s;
-                            return skill;
+                            if (s) {
+                                const skill = {};
+                                skill.label = s;
+                                skill.value = s;
+                                return skill;
+                            }
+                            
+
                         }),
                         selectedSoftSkills: res.data.softSkills.map(s => {
-                            const skill = {};
-                            skill.label = s;
-                            skill.value = s;
-                            return skill;
+                            if (s) {
+                                const skill = {};
+                                skill.label = s;
+                                skill.value = s;
+                                return skill;
+                            }
+
                         }),
                         company: companyItem,
                         otherProfile: other
@@ -132,36 +139,36 @@ class Profile extends Component {
                     skill.value = s.name;
                     return skill;
                 }),
-                    softSkillsList = response.data.filter(s => s.type === 2).map(s => {
-                        const skill = {};
-                        skill.label = s.name;
-                        skill.value = s.name;
-                        return skill;
-                    })
+                softSkillsList = response.data.filter(s => s.type === 2).map(s => {
+                    const skill = {};
+                    skill.label = s.name;
+                    skill.value = s.name;
+                    return skill;
+                })
             ))
     }
 
 
     editProfile = () => {
-        this.setState({disable: false});
+        this.setState({ disable: false });
     };
 
     onChange(e) {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     handleChangeTech = selectedTechSkills => {
-        this.setState({selectedTechSkills});
+        this.setState({ selectedTechSkills });
         console.log(`Tech Skills selected:`, this.state.selectedTechSkills);
     };
 
     handleChangeSoft = selectedSoftSkills => {
-        this.setState({selectedSoftSkills});
+        this.setState({ selectedSoftSkills });
         console.log(`Soft Skills selected:`, this.state.selectedSoftSkills);
     };
 
     handleChangeCompany(company) {
-        this.setState({company: company});
+        this.setState({ company: company });
         console.log(`Company selected:`, this.state.company);
     };
 
@@ -171,18 +178,19 @@ class Profile extends Component {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             email: this.state.email,
-            techSkills: this.state.selectedTechSkills ? this.state.selectedTechSkills.map(s => s.name) : [],
-            softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.name) : [],
+            techSkills: this.state.selectedTechSkills ? this.state.selectedTechSkills.map(s => s.label) : [],
+            softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.label) : [],
             company: this.state.company.label
         };
+        console.log(updatedUser)
         this.props.updateUser(updatedUser, this.props);
-        this.setState({disable: true});
+        this.setState({ disable: true });
     }
 
     render() {
-        const {selectedTechSkills, selectedSoftSkills} = this.state;
-        const {errors} = this.state;
-        const {isAuthenticated, user} = this.props.auth;
+        const { selectedTechSkills, selectedSoftSkills } = this.state;
+        const { errors } = this.state;
+        const { isAuthenticated, user } = this.props.auth;
 
         return (
             <div className="container h-100">
@@ -302,9 +310,9 @@ class Profile extends Component {
                                         <p></p>
                                     }
                                     {this.state.otherProfile ? <p></p> :
-                                        <Col sm={{size: 10, offset: 4}} className="mt-5">
+                                        <Col sm={{ size: 10, offset: 4 }} className="mt-5">
                                             <Button className="mr-5" onClick={this.editProfile}
-                                                    disabled={!this.state.disable} color="primary">Edit</Button>
+                                                disabled={!this.state.disable} color="primary">Edit</Button>
                                             <Button disabled={this.state.disable} color="success">Save</Button>
                                         </Col>
                                     }
@@ -334,5 +342,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {updateUser}
+    { updateUser }
 )(Profile);

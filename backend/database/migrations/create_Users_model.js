@@ -30,8 +30,7 @@ module.exports = {
   },
   company: {
     type: String,
-    required: true,
-    default: "none"
+    default: ""
   },
   created_at: {
     type: Date,

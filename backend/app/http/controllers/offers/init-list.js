@@ -15,7 +15,17 @@ module.exports = [
         recruiter: "Maxime L'Hermite",
         shortDesc: "Mise en place d'une nouvelle architecture web",
         fullDesc: "Création des frontaux webs de notre école grâce à une nouvelle technologie de pointe",
-        askedSkills: ["Node JS", "Mongo DB", "Innovation"],
+        askedSkills: ["Node JS", "Mongo DB", "Linux"],
+        hiddenSkills: ["Communication"],
+        applicants: []
+    },
+    {
+        offerName: "Développeur",
+        company: "Epita",
+        recruiter: "Esteban Casanas",
+        shortDesc: "Site utilisant le nouveau backend de l'école",
+        fullDesc: "tkt",
+        askedSkills: ["React JS", "Mongo DB", "Innovation", "Node JS", "Archlinux"],
         hiddenSkills: ["Communication"],
         applicants: []
     },

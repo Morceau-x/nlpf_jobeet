@@ -28,6 +28,7 @@ class OfferOverview extends Component {
                             </Link>
                         </div>
                     </div>
+                    <span>{new Date(this.props.offer.created_at).toLocaleDateString("fr-FR")}</span>
                 </div>
             </div>
         );
