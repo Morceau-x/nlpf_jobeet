@@ -96,8 +96,8 @@ class Offer extends Component {
         const { isAuthenticated, user } = this.props.auth;
         console.log(this.state.applicants.includes(user.email))
         const removeApply = (
-            <Button onClick={this.removeCandidate} color="danger">
-                Don't apply anymore
+            <Button disabled={true} color="primary">
+                Thank you for applying to this offer !
             </Button>
         )
 
