@@ -104,7 +104,7 @@ class Company extends Component {
                     </div>
                     <div id="companyFillZone" className="col-12 mb-5">
                         {this.state.current === "Offers" ? <Offers company={this.state.company} /> : (this.state.current === "Recruiters" ?
-                            <Recruiters company={this.state.company} /> : <Applicants/>)}
+                            <Recruiters company={this.state.company} /> : <Applicants company={this.state.company} />)}
                     </div>
                 </div>
             </div>
