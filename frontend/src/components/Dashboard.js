@@ -75,7 +75,10 @@ class Dashboard extends Component {
         }
     };
 
-
+    isRecruiter() {
+        const {isAuthenticated, user} = this.props.auth;
+        return isAuthenticated && user.role !== 1
+    }
     render() {
         return (
             <div className="container">
@@ -101,16 +104,21 @@ class Dashboard extends Component {
                 </div>
                 <div className="row mt-4">
                     {this.state.displayedList.map((item, index) => (
-                        <OfferOverview key={index} offer={item}/>
+                        <OfferOverview key={index} isRecruiter={this.isRecruiter()} offer={item}/>
                     ))}
                 </div>
-                <Pagination
-                    activePage={this.state.activePage}
-                    itemsCountPerPage={this.state.itemsCountPerPage}
-                    totalItemsCount={this.state.offersList.length}
-                    pageRangeDisplayed={3}
-                    onChange={this.handlePageChange}
-                />
+                <Pagination linkClass="page-link"
+                                itemClass="page-item"
+                                prevPageText="<"
+                                firstPageText="<<"
+                                nextPageText=">"
+                                lastPageText=">>"
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={this.state.itemsCountPerPage}
+                                totalItemsCount={this.state.offersList.length}
+                                pageRangeDisplayed={3}
+                                onChange={this.handlePageChange}
+                    />
             </div>
         )
     }

@@ -34,6 +34,10 @@ router.post("/getOfferById", (req, res) => {
   return controller.getOffers.getOfferById(req, res);
 });
 
+router.post("/removeOffer", (req, res) => {
+  return controller.getOffers.removeOffer(req, res);
+});
+
 router.post("/apply", (req, res) => {
   return controller.apply.applyToOffer(req, res);
 });

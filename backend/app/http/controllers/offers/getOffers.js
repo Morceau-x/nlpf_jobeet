@@ -32,6 +32,10 @@ exports.getAllOffers = (req, res) => {
   });
 };
 
+exports.removeOffer = (req, res) => {
+  Offers.remove({ _id: req.body.id }).then(offer => {return res.json(offer)})
+}
+
 
 exports.getCompanyOffers = (req, res) => {
   Offers.find({}).then(offers => {

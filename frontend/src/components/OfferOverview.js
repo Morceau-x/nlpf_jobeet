@@ -1,16 +1,28 @@
-import React, {Component} from "react";
-import {Redirect, Route, Switch} from "react-router"
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {Link, withRouter} from 'react-router-dom';
-
+import React, { Component } from "react";
+import { Link, withRouter } from 'react-router-dom';
+import {
+    Button,
+} from "reactstrap";
+import axios from "axios"
 
 class OfferOverview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            offer: this.props.offer
+            offer: this.props.offer,
+            isRecruiter: this.props.isRecruiter
         };
+        this.removeOffer=this.removeOffer.bind(this);
+    }
+
+    removeOffer() {
+        axios
+            .post('/removeOffer', { id : this.props.offer._id })
+            .then(response => {
+                if (response.status === 200) {
+                    this.props.removeOffer(this.props.offer._id)
+                }
+            });
     }
 
     render() {
@@ -18,7 +30,11 @@ class OfferOverview extends Component {
         return (
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card bg-light h-100 ">
-                    <div className="card-header">{this.state.offer.company}</div>
+                    <div className="card-header">
+                        {this.state.offer.company}
+                        <Button close onClick={this.removeOffer}/>
+
+                    </div>
                     <div className="d-flex flex-column card-body">
                         <h5 className="card-title mt-2">{this.state.offer.offerName}</h5>
                         <p className="card-text mt-2">{this.state.offer.shortDesc}</p>

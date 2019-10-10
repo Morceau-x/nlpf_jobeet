@@ -34,6 +34,7 @@ class Offers extends Component {
         };
 
         this.onPageChange = this.onPageChange.bind(this);
+        this.removeOffer = this.removeOffer.bind(this)
     }
 
     isRecruiter() {
@@ -66,6 +67,17 @@ class Offers extends Component {
         this.setState({display: buffArray.splice(startIndex, this.state.nbPerPage)});
     }
 
+    removeOffer(id) {
+        console.log(this.state)
+        let buffArray = [].concat(this.state.offers).filter(function(obj){
+            return obj._id !== id;
+    })
+    this.setState({
+        offers: buffArray
+    })
+    this.onPageChange(this.state.activePage)
+}
+
     render() {
         return (
             <Card>
@@ -78,9 +90,15 @@ class Offers extends Component {
 
                     <h4 className="card-title mb-5">Offers of the company</h4>
                     <div className="row">
-                        {this.state.display.map((item) => (
-                            <OfferOverview key={item._id} offer={item}/>
-                        ))}
+
+                    {
+                        this.state.offers.length === 0 ? "No offers created yet" :
+                        this.state.display.map((item) => (
+                            <OfferOverview key={item._id} removeOffer={this.removeOffer} isRecruiter={this.isRecruiter()} offer={item}/>
+                        ))
+                    }
+
+                        
                     </div>
                     <Pagination linkClass="page-link"
                                 itemClass="page-item"
