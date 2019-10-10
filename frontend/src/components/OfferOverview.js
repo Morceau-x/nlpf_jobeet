@@ -32,8 +32,9 @@ class OfferOverview extends Component {
                 <div className="card bg-light h-100 ">
                     <div className="card-header">
                         {this.state.offer.company}
-                        <Button close onClick={this.removeOffer}/>
-
+                        {
+                            this.state.isRecruiter ? <Button close onClick={this.removeOffer}/> : null
+                        }
                     </div>
                     <div className="d-flex flex-column card-body">
                         <h5 className="card-title mt-2">{this.state.offer.offerName}</h5>

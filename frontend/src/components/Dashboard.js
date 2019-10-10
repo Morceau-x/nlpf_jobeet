@@ -104,7 +104,7 @@ class Dashboard extends Component {
                 </div>
                 <div className="row mt-4">
                     {this.state.displayedList.map((item, index) => (
-                        <OfferOverview key={index} isRecruiter={this.isRecruiter()} offer={item}/>
+                        <OfferOverview key={index} isRecruiter={false} offer={item}/>
                     ))}
                 </div>
                 <Pagination linkClass="page-link"
