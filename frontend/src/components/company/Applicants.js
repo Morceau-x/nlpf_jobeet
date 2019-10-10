@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import {Link, withRouter} from 'react-router-dom';
 
 import {
     Card,
@@ -14,7 +15,7 @@ import {
     Input
 } from "reactstrap";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 class Applicants extends Component {
     constructor(props) {
@@ -51,20 +52,25 @@ class Applicants extends Component {
                     <div className="row mt-2">
                         {this.state.offers.map((item, index) => (
                             <div className="col-4" key={index} item={item}>
-                                <div className="">
+                                { item.applicants.length === 0 ? null :
                                     <Card id={item._id} className="btn btn-outline-dark text-left">
-                                    <CardHeader>
-                                        {item.offerName}
-                                    </CardHeader>
+                                        <CardHeader>
+                                            {item.offerName}
+                                        </CardHeader>
                                         <CardBody>
-                                        {item.applicants.map((item2, index2) => (
-                                            <ul key={index2} item={item2}>
-                                                <li>{item2}</li>
-                                            </ul>
-                                        ))}
+                                            {item.applicants.map((item2, index2) => (
+                                                <ul key={index2} item={item2}>
+                                                    <li>
+                                                        <Link to={"/profile?email=" + item2}>
+                                                            <a>{item2}</a>
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            ))}
                                         </CardBody>
                                     </Card>
-                                </div>
+                                }
+                                    
                             </div>
                         ))}
                     </div>
