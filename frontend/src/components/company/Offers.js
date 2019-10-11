@@ -29,6 +29,7 @@ class Offers extends Component {
             offers: [],
             display: [],
             company: this.props.company,
+            owned: this.props.owned,
             nbPerPage: 6,
             activePage: 1
         };
@@ -39,7 +40,7 @@ class Offers extends Component {
 
     isRecruiter() {
         const {isAuthenticated, user} = this.props.auth;
-        return isAuthenticated && user.role !== 1
+        return isAuthenticated && user.role !== 1 && this.state.owned
     }
 
     componentWillMount() {

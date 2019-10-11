@@ -30,7 +30,8 @@ class Company extends Component {
             name: this.props.name,
             description: this.props.description,
             current: "Offers",
-            company: query.get('company')
+            company: query.get('company'),
+            owned: false
         };
 
         this.companyFillZone = this.companyFillZone.bind(this)
@@ -38,14 +39,17 @@ class Company extends Component {
 
     isRecruiter() {
         const {isAuthenticated, user} = this.props.auth;
-        return isAuthenticated && user.role !== 1
+        return isAuthenticated && user.role !== 1 && this.state.owned
     }
 
     componentWillMount() {
         const {isAuthenticated, user} = this.props.auth;
-        let company = user.company;
-        if (user.company == null || user.company === "" || user.company === "none")
-            company = this.state.company;
+        let company = this.state.company;
+        let owned = false;
+        if (this.state.company == null || this.state.company === "" || this.state.company === "none") {
+            company = user.company;
+            owned = true
+        }
 
         axios
             .get('/company?company=' + company)
@@ -53,7 +57,8 @@ class Company extends Component {
                 if (response != null && response.data != null) {
                     this.setState({
                         name: response.data.name,
-                        description: response.data.description
+                        description: response.data.description,
+                        owned: owned
                     });
                 }
             });
@@ -103,8 +108,8 @@ class Company extends Component {
                         </ul>
                     </div>
                     <div id="companyFillZone" className="col-12 mb-5">
-                        {this.state.current === "Offers" ? <Offers company={this.state.company} /> : (this.state.current === "Recruiters" ?
-                            <Recruiters company={this.state.company} /> : <Applicants company={this.state.company} />)}
+                        {this.state.current === "Offers" ? <Offers company={this.state.company}  owned={this.state.owned} /> : (this.state.current === "Recruiters" ?
+                            <Recruiters company={this.state.company} owned={this.state.owned} /> : <Applicants company={this.state.company} owned={this.state.owned} />)}
                     </div>
                 </div>
             </div>
