@@ -62,6 +62,11 @@ class Profile extends Component {
         return isAuthenticated && user.role === 0 
     }
 
+    isApplicant() {
+        const { isAuthenticated, user } = this.props.auth;
+        return isAuthenticated && user.role === 1 
+    }
+
     getAllCompanies() {
         axios
             .get('/companies')
@@ -272,7 +277,7 @@ class Profile extends Component {
                                         </Col>
                                     </FormGroup>
 
-                                    {this.isRecruiter() ? <p></p> :this.isAdmin ? null :
+                                    {this.isApplicant() ? 
                                         <Select
                                             value={this.state.selectedTechSkills}
                                             isMulti
@@ -284,10 +289,10 @@ class Profile extends Component {
                                             onInputChange={this.handleInputChange}
                                             classNamePrefix="select-tech"
                                             placeholder="Select technical skills..."
-                                        />
+                                        /> : null
                                     }
 
-                                    {this.isRecruiter() ? <p></p> : this.isAdmin ? null :
+                                    {this.isApplicant() ? 
                                         <Select
                                             value={this.state.selectedSoftSkills}
                                             isMulti
@@ -298,7 +303,7 @@ class Profile extends Component {
                                             className="basic-multi-select"
                                             classNamePrefix="select-soft"
                                             placeholder="Select soft skills..."
-                                        />
+                                        /> : null
                                     }
 
                                     {this.isRecruiter() ?

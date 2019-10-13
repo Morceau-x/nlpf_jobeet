@@ -9,7 +9,10 @@ import {
     CardHeader,
     CardBody,
     Button,
-    Col
+    Col,
+    InputGroup,
+    InputGroupAddon,
+    Input
 } from "reactstrap";
 import { updateUser } from "../../actions/authActions";
 
@@ -25,6 +28,8 @@ class Skills extends Component {
             techSkillsList: [],
             softSkillsList: [],
             editMode: false,
+            inputSoft: "",
+            inputTech: ""
         };
         this.removeSkill = this.removeSkill.bind(this);
 
@@ -54,24 +59,72 @@ class Skills extends Component {
     removeSkill(item) {
         if (item.type === 1) {//tech
             this.setState({
-                techSkillsList: this.state.techSkillsList.filter(function(value, index, arr){
+                techSkillsList: this.state.techSkillsList.filter(function (value, index, arr) {
                     return value.name !== item.name;
                 })
             })
         }
         else {//soft
             this.setState({
-                softSkillsList: this.state.softSkillsList.filter(function(value, index, arr){
+                softSkillsList: this.state.softSkillsList.filter(function (value, index, arr) {
                     return value.name !== item.name;
                 })
             })
         }
+        axios
+            .post('/removeSkill', {name : item.name})
+            .then(response => (
+                console.log(response)
+            ))
     }
 
-
     editSkills = () => {
-        this.setState({ editMode: true });
+        this.setState({ editMode: !this.state.editMode });
     };
+
+    updateSoftInput(evt) {
+        this.setState({
+            inputSoft: evt.target.value
+        });
+    }
+
+    updateTechInput(evt) {
+        this.setState({
+            inputTech: evt.target.value
+        });
+    }
+
+    createSkill(type) {
+        if (type === 2) { //soft
+            console.log(this.state.inputSoft)
+            axios
+            .post('/createSkill',
+            {
+                name : this.state.inputSoft,
+                type: type
+            })
+            .then(response => (
+                this.setState({
+                    softSkillsList: this.state.softSkillsList.concat(response.data)
+                })
+            ))
+        }
+        else { //tech
+            console.log(this.state.inputTech)
+            axios
+            .post('/createSkill',
+            {
+                name : this.state.inputTech,
+                type: type
+            })
+            .then(response => (
+                this.setState({
+                    techSkillsList: this.state.techSkillsList.concat(response.data)
+                })
+            ))
+        }
+
+    }
 
     render() {
         const { isAuthenticated, user } = this.props.auth;
@@ -88,32 +141,50 @@ class Skills extends Component {
                                         <div className="col ml-5">
                                             <p className="font-weight-bold">Soft Skills</p>
 
+                                            {this.state.editMode ? <InputGroup>
+                                                <Input value={this.state.inputSoft} onChange={evt => this.updateSoftInput(evt)} placeholder="Create soft skill" />
+                                                <InputGroupAddon addonType="append">
+                                                    <Button onClick={() => this.createSkill(2)} disabled={this.state.inputSoft === ''} color="success">+</Button>
+                                                </InputGroupAddon>
+                                            </InputGroup> : null}
+
                                             <ul>
                                                 {this.state.softSkillsList.map((item, index) => (
                                                     <li key={index} item={item}>
                                                         {item.name}
-                                                        { this.state.editMode ? <Button close onClick={() => this.removeSkill(item)} /> : null}
+                                                        {this.state.editMode ? <Button close onClick={() => this.removeSkill(item)} /> : null}
                                                     </li>
                                                 ))}
                                             </ul>
                                         </div>
                                         <div className="col ml-2">
                                             <p className="font-weight-bold">Technical Skills</p>
+
+                                            {this.state.editMode ? <InputGroup>
+                                                <Input value={this.state.inputTech} onChange={evt => this.updateTechInput(evt)} placeholder="Create technical skill" />
+                                                <InputGroupAddon addonType="append">
+                                                    <Button onClick={() => this.createSkill(1)} disabled={this.state.inputTech === ''} color="success">+</Button>
+                                                </InputGroupAddon>
+                                            </InputGroup> : null}
+
                                             <ul>
                                                 {this.state.techSkillsList.map((item, index) => (
                                                     <li key={index} item={item}>
                                                         {item.name}
-                                                        { this.state.editMode ? <Button close onClick={() => this.removeSkill(item)} /> : null}
+                                                        {this.state.editMode ? <Button close onClick={() => this.removeSkill(item)} /> : null}
                                                     </li>
                                                 ))}
                                             </ul>
                                         </div>
                                     </div>
                                     <Col sm={{ size: 10, offset: 4 }} className="mt-5">
-                                            <Button className="mr-5" onClick={this.editSkills}
-                                                disabled={this.state.editMode} color="primary">Edit</Button>
-                                            <Button disabled={!this.state.editMode} color="success">Save</Button>
-                                        </Col>
+                                        {
+                                            this.state.editMode ? <Button onClick={this.editSkills} className="ml-5" color="danger">Done</Button> :
+                                            <Button className="ml-5" onClick={this.editSkills} disabled={this.state.editMode} color="primary">
+                                                Edit
+                                            </Button>
+                                        }
+                                    </Col>
                                 </div>
                             </CardBody>
                         </Card>

@@ -58,6 +58,14 @@ router.get("/recruiters", (req, res) => {
   return controller.getUsers.getRecruiters(req, res);
 });
 
+router.post("/removeSkill", (req, res) => {
+  return controller.removeSkill.removeSkill(req, res);
+});
+
+router.post("/createSkill", (req, res) => {
+  return controller.createSkill.createSkill(req, res);
+});
+
 
 
 module.exports = router;
