@@ -112,7 +112,7 @@ class Login extends Component {
                   <FormGroup check row>
                     <Col sm={{ size: 10, offset: 4 }}>
                       <Button color="primary">Login</Button>
-                      <div className="g-signin2 mt-2" data-onsuccess="onSignIn"></div>
+                      {/* <div className="g-signin2 mt-2" data-onsuccess="onSignIn"></div> */}
 
                     </Col>
                   </FormGroup>

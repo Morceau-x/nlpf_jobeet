@@ -54,7 +54,12 @@ class Profile extends Component {
 
     isRecruiter() {
         const { isAuthenticated, user } = this.props.auth;
-        return isAuthenticated && user.role !== 1
+        return isAuthenticated && user.role === 2
+    }
+
+    isAdmin() {
+        const { isAuthenticated, user } = this.props.auth;
+        return isAuthenticated && user.role === 0 
     }
 
     getAllCompanies() {
@@ -259,7 +264,7 @@ class Profile extends Component {
                                                 type="text"
                                                 name="role"
                                                 id="role"
-                                                value={this.state.role === 1 ? "Applicant" : "Recruiter"}
+                                                value={this.state.role === 1 ? "Applicant" : this.state.role === 2 ? "Recruiter" : "Admin"}
                                                 onChange={this.onChange}
                                                 disabled={true}
                                             />
@@ -267,7 +272,7 @@ class Profile extends Component {
                                         </Col>
                                     </FormGroup>
 
-                                    {this.isRecruiter() ? <p></p> :
+                                    {this.isRecruiter() ? <p></p> :this.isAdmin ? null :
                                         <Select
                                             value={this.state.selectedTechSkills}
                                             isMulti
@@ -282,7 +287,7 @@ class Profile extends Component {
                                         />
                                     }
 
-                                    {this.isRecruiter() ? <p></p> :
+                                    {this.isRecruiter() ? <p></p> : this.isAdmin ? null :
                                         <Select
                                             value={this.state.selectedSoftSkills}
                                             isMulti
