@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {Link, withRouter} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import {
     Card,
@@ -39,6 +39,7 @@ class Applicants extends Component {
         axios
             .get('/offers/company?company=' + company)
             .then(response => {
+                //response.data.sort((a, b) => (a.matchPercentage[user.email] > b.matchPercentage[user.email]) ? -1 : 1)
                 this.setState({ offers: response.data });
             });
     }
@@ -52,25 +53,36 @@ class Applicants extends Component {
                     <div className="row mt-2">
                         {this.state.offers.map((item, index) => (
                             <div className="col-4" key={index} item={item}>
-                                { item.applicants.length === 0 ? null :
+                                {item.applicants.length === 0 ? null :
                                     <Card id={item._id} className="btn btn-outline-dark text-left">
                                         <CardHeader>
                                             {item.offerName}
                                         </CardHeader>
                                         <CardBody>
-                                            {item.applicants.map((item2, index2) => (
-                                                <ul key={index2} item={item2}>
-                                                    <li>
-                                                        <Link to={"/profile?email=" + item2}>
-                                                            <a>{item2}</a>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            ))}
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Matching</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {item.applicants.map((item2, index2) => (
+                                                        <tr>
+                                                            <th scope="row">{item.applicants.indexOf(item2) + 1}</th>
+                                                            <td>
+                                                                <Link to={"/profile?email=" + item2}>
+                                                                    <a>{item2}</a>
+                                                                </Link></td>
+                                                            <td>{item.matchPercentage[item2]}%</td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
                                         </CardBody>
                                     </Card>
                                 }
-                                    
                             </div>
                         ))}
                     </div>

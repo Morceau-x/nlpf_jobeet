@@ -1,7 +1,6 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import Select from "react-select";
+import { connect } from "react-redux";
 import axios from "axios";
 
 
@@ -9,54 +8,44 @@ import {
     Card,
     CardHeader,
     CardBody,
-    Col,
     Button,
-    Form,
-    FormGroup,
-    Label,
-    FormFeedback,
+    Col,
+    InputGroup,
+    InputGroupAddon,
     Input
 } from "reactstrap";
-import {updateUser} from "../../actions/authActions";
+import { updateUser } from "../../actions/authActions";
 
 
 
-class Profile extends Component {
+class Skills extends Component {
 
 
-    constructor(props) {
-        super(props);
-        const query = new URLSearchParams(this.props.location.search);
+    constructor() {
+        super();
         this.state = {
             errors: {},
-            techSkillsList : [],
-            softSkillsList : [],
-            };
+            techSkillsList: [],
+            softSkillsList: [],
+            editMode: false,
+            inputSoft: "",
+            inputTech: ""
+        };
+        this.removeSkill = this.removeSkill.bind(this);
 
     }
 
     componentWillMount() {
-        const {isAuthenticated, user} = this.props.auth;
-
         axios
             .get('/getSkillsList')
             .then(response => (
                 this.setState({
-                    techSkillsList : response.data.filter(s => s.type === 1),
-                    softSkillsList : response.data.filter(s => s.type === 2)
-                })  
+                    techSkillsList: response.data.filter(s => s.type === 1),
+                    softSkillsList: response.data.filter(s => s.type === 2)
+                })
             ))
     }
 
-    handleChangeTech = selectedTechSkills => {
-        this.setState({selectedTechSkills});
-        console.log(`Tech Skills selected:`, this.state.selectedTechSkills);
-    };
-
-    handleChangeSoft = selectedSoftSkills => {
-        this.setState({selectedSoftSkills});
-        console.log(`Soft Skills selected:`, this.state.selectedSoftSkills);
-    };
 
     onSubmit(e) {
         e.preventDefault();
@@ -67,67 +56,136 @@ class Profile extends Component {
         //this.props.updateUser(updatedUser, this.props);
     }
 
+    removeSkill(item) {
+        if (item.type === 1) {//tech
+            this.setState({
+                techSkillsList: this.state.techSkillsList.filter(function (value, index, arr) {
+                    return value.name !== item.name;
+                })
+            })
+        }
+        else {//soft
+            this.setState({
+                softSkillsList: this.state.softSkillsList.filter(function (value, index, arr) {
+                    return value.name !== item.name;
+                })
+            })
+        }
+        axios
+            .post('/removeSkill', {name : item.name})
+            .then(response => (
+                console.log(response)
+            ))
+    }
+
+    editSkills = () => {
+        this.setState({ editMode: !this.state.editMode });
+    };
+
+    updateSoftInput(evt) {
+        this.setState({
+            inputSoft: evt.target.value
+        });
+    }
+
+    updateTechInput(evt) {
+        this.setState({
+            inputTech: evt.target.value
+        });
+    }
+
+    createSkill(type) {
+        if (type === 2) { //soft
+            console.log(this.state.inputSoft)
+            axios
+            .post('/createSkill',
+            {
+                name : this.state.inputSoft,
+                type: type
+            })
+            .then(response => (
+                this.setState({
+                    softSkillsList: this.state.softSkillsList.concat(response.data)
+                })
+            ))
+        }
+        else { //tech
+            console.log(this.state.inputTech)
+            axios
+            .post('/createSkill',
+            {
+                name : this.state.inputTech,
+                type: type
+            })
+            .then(response => (
+                this.setState({
+                    techSkillsList: this.state.techSkillsList.concat(response.data)
+                })
+            ))
+        }
+
+    }
+
     render() {
-        const {errors} = this.state;
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
 
         return (
             <div className="container h-100">
                 <div className="row justify-content-center">
-                    <div className="col-md-8">
+                    <div className="col-lg-8">
                         <Card>
-                            <CardHeader>Skills</CardHeader>
+                            <CardHeader>Edit Skills</CardHeader>
                             <CardBody>
-                                {/* Form Starts Here */}
-                                <Form onSubmit={this.onSubmit}>
-                                    <FormGroup row>
-                                        <Label className="text-md-right" for="firstname" sm={4}>
-                                            Firstname
-                                        </Label>
+                                <div className="container">
+                                    <div className="row">
+                                        <div className="col ml-5">
+                                            <p className="font-weight-bold">Soft Skills</p>
 
-                                    
-                                        <Label className="text-md-right" for="lastname" sm={4}>
-                                            Lastname
-                                        </Label>
-                                        
-                                    </FormGroup>
-                                    <FormGroup row>
-                                        <Label className="text-md-right" for="email" sm={4}>
-                                            Email
-                                        </Label>
-                                        
-                                    
-                                        <Label className="text-md-right" for="password" sm={4}>
-                                            Role
-                                        </Label>
-                                    </FormGroup>
+                                            {this.state.editMode ? <InputGroup>
+                                                <Input value={this.state.inputSoft} onChange={evt => this.updateSoftInput(evt)} placeholder="Create soft skill" />
+                                                <InputGroupAddon addonType="append">
+                                                    <Button onClick={() => this.createSkill(2)} disabled={this.state.inputSoft === ''} color="success">+</Button>
+                                                </InputGroupAddon>
+                                            </InputGroup> : null}
 
-                                    <FormGroup>
-                                        <ul>
-                                            {this.state.techSkillsList.map((item, index) => (
-                                                <li key={index} item = {item.name} />
-                                            ))}
-                                        </ul>
-                                    </FormGroup>
+                                            <ul>
+                                                {this.state.softSkillsList.map((item, index) => (
+                                                    <li key={index} item={item}>
+                                                        {item.name}
+                                                        {this.state.editMode ? <Button close onClick={() => this.removeSkill(item)} /> : null}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className="col ml-2">
+                                            <p className="font-weight-bold">Technical Skills</p>
 
-                                    <FormGroup>
-                                        <ul>
-                                            {this.state.softSkillsList.map((item, index) => (
-                                                <li key={index} item = {item.name} />
-                                            ))}
-                                        </ul>
-                                    </FormGroup>
+                                            {this.state.editMode ? <InputGroup>
+                                                <Input value={this.state.inputTech} onChange={evt => this.updateTechInput(evt)} placeholder="Create technical skill" />
+                                                <InputGroupAddon addonType="append">
+                                                    <Button onClick={() => this.createSkill(1)} disabled={this.state.inputTech === ''} color="success">+</Button>
+                                                </InputGroupAddon>
+                                            </InputGroup> : null}
 
-                                    {this.state.otherProfile ? <p></p> :
-                                        <Col sm={{size: 10, offset: 4}} className="mt-5">
-                                            <Button className="mr-5" onClick={this.editProfile}
-                                                    disabled={!this.state.disable} color="primary">Edit</Button>
-                                            <Button disabled={this.state.disable} color="success">Save</Button>
-                                        </Col>
-                                    }
-                                </Form>
-
-                                {/* Form Ends Here */}
+                                            <ul>
+                                                {this.state.techSkillsList.map((item, index) => (
+                                                    <li key={index} item={item}>
+                                                        {item.name}
+                                                        {this.state.editMode ? <Button close onClick={() => this.removeSkill(item)} /> : null}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <Col sm={{ size: 10, offset: 4 }} className="mt-5">
+                                        {
+                                            this.state.editMode ? <Button onClick={this.editSkills} className="ml-5" color="danger">Done</Button> :
+                                            <Button className="ml-5" onClick={this.editSkills} disabled={this.state.editMode} color="primary">
+                                                Edit
+                                            </Button>
+                                        }
+                                    </Col>
+                                </div>
                             </CardBody>
                         </Card>
                     </div>
@@ -138,7 +196,7 @@ class Profile extends Component {
 }
 
 
-Profile.propTypes = {
+Skills.propTypes = {
     updateUser: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
@@ -151,5 +209,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {updateUser}
-)(Profile);
+    { updateUser }
+)(Skills);

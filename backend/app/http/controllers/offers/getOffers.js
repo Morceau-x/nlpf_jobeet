@@ -13,16 +13,14 @@ async function getMachingOffers(email) {
 
 exports.getAllOffers = (req, res) => {
   getMachingOffers(req.body.email).then(result => {
-    let out = []
     let offers = result.offers
     let user = result.user
     let userSkills = [].concat(user.techSkills).concat(user.softSkills)
     offers.forEach(function (offer) {
-      //let newObj = JSON.parse(JSON.stringify(offer));
 
       let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x))
       let matchScore = Math.round((matchedSkills.length / offer.askedSkills.length) * 100)
-      offer['matchPercentage'] = matchScore
+      offer.matchPercentage[user.email] = matchScore
       offer.save();
     });
 

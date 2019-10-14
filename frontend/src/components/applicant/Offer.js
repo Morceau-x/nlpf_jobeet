@@ -118,11 +118,11 @@ class Offer extends Component {
                             ))}
                         </ul>
                     </div>
-                    <div className="col-8">
+                    <div className="col-6">
                         <h2 className="display-4">{this.state.offerName}
                         {this.isRecruiter() ?
                             null :
-                            '-' + this.state.matchScore +'%'
+                            '-' + this.state.matchScore[user.email] +'%'
                         }
                         </h2>
                         <Link to={"/company?company=" + this.state.company}>
@@ -139,6 +139,14 @@ class Offer extends Component {
                             </p>
                         }
 
+                    </div>
+                    <div className="col-2">
+                        <h5 className="display-5">Skills required</h5>
+                        <ul>
+                            {this.state.askedSkills.map((item, index) => (
+                                <li key={index} item={item}>{item}</li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             </div>

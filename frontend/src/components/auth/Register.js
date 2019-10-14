@@ -23,8 +23,7 @@ class Register extends Component {
     this.state = {
       firstname: "",
       lastname: "",
-      applicant: true,
-      recruiter: false,
+      role: 0,//0 admin, 1 applicant, 2 recruiter
       email: "",
       password: "",
       confirm_password: "",
@@ -52,19 +51,14 @@ class Register extends Component {
   }
 
   setRole(role) {
-    if (role === 1) {
-      this.setState({ applicant: true, recruiter: false });
-    }
-    else {
-      this.setState({ applicant: false, recruiter: true });
-    }
+    this.setState({ role: role});
   }
 
   onSubmit(e) {
     e.preventDefault();
 
     const newUser = {
-      role: this.state.applicant === true ? 1 : 2,
+      role: this.state.role,
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       email: this.state.email,
@@ -83,6 +77,7 @@ class Register extends Component {
         email: "",
         password: "",
         confirm_password: "",
+        role: 0,
         errors: {}
       });
     }
@@ -103,6 +98,18 @@ class Register extends Component {
                       Role
                     </Label>
                     <Col sm={8}>
+                    <FormGroup check>
+                        <Label check>
+                          <Input
+                            value={this.state.applicant}
+                            type="radio"
+                            name="radio1"
+                            onClick={() => this.setRole(0)}
+                            defaultChecked={this.state.role === 0}
+                            />{' '}
+                          Admin
+                        </Label>
+                      </FormGroup>
                       <FormGroup check>
                         <Label check>
                           <Input
@@ -110,7 +117,7 @@ class Register extends Component {
                             type="radio"
                             name="radio1"
                             onClick={() => this.setRole(1)}
-                            defaultChecked={this.state.applicant}
+                            defaultChecked={this.state.role === 1}
                             />{' '}
                           Applicant
                         </Label>
@@ -122,6 +129,7 @@ class Register extends Component {
                           type="radio"
                           name="radio1"
                           onClick={() => this.setRole(2)}
+                          defaultChecked={this.state.role === 2}
                           />{' '}
                           Recruiter
                         </Label>
