@@ -20,6 +20,7 @@ import EditCompany from "./components/company/EditCompany";
 import Offer  from "./components/applicant/Offer"
 import Skills from "./components/admin/skills";
 import Chat from "./components/chat/ChatComponent"
+import Companies from "./components/auth/Companies"
 
 console.disableYellowBox = true;
 const SweetAlert = require("react-bootstrap-sweetalert");
@@ -62,6 +63,7 @@ class App extends Component {
               <PrivateRoute exact path="/company" component={Company} />
               <PrivateRoute exact path="/skills" component={Skills} />
               <PrivateRoute exact path="/company/edit" component={EditCompany} />
+              <PrivateRoute exact path="/companies" component={Companies} />
             </Switch>
             <Chat />
             {/* <Footer /> */}

@@ -73,6 +73,9 @@ class Header extends Component {
           <NavLink href="/dashboard">Offers</NavLink>
         </NavItem>
         <NavItem>
+          <NavLink href="/companies">Companies</NavLink>
+        </NavItem>
+        <NavItem>
           <NavLink href="/notifications">Notifications</NavLink>
         </NavItem>
       </Nav>
@@ -84,6 +87,9 @@ class Header extends Component {
         </NavItem>
         <NavItem>
           <NavLink href="/company">Company</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="/companies">Companies</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/notifications">Notifications</NavLink>
@@ -100,7 +106,7 @@ class Header extends Component {
           <NavLink href="/dashboard">All Offers</NavLink>
         </NavItem>
         <NavItem>
-          <NavLink href="/company">Companies</NavLink>
+          <NavLink href="/companies">Companies</NavLink>
         </NavItem>
         <NavItem>
           <NavLink href="/skills">Skills</NavLink>
