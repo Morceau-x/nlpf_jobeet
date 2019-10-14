@@ -9,15 +9,13 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Row,
-  Col,
  
 } from "reactstrap";
 import { updateUser } from "../../actions/authActions";
 
 
 
-class Skills extends Component {
+class Companies extends Component {
 
 
   constructor() {
@@ -78,7 +76,7 @@ class Skills extends Component {
 }
 
 
-Skills.propTypes = {
+Companies.propTypes = {
   updateUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
@@ -92,4 +90,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { updateUser }
-)(Skills);
+)(Companies);

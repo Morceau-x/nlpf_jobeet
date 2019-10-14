@@ -142,11 +142,7 @@ class Offer extends Component {
                     </div>
                     <div className="col-2">
                         <h5 className="display-5">Skills required</h5>
-                        <ul>
-                            {this.state.askedSkills.map((item, index) => (
-                                <li key={index} item={item}>{item}</li>
-                            ))}
-                        </ul>
+                        
                     </div>
                 </div>
             </div>
