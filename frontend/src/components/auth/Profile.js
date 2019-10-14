@@ -53,8 +53,9 @@ class Profile extends Component {
     }
 
     isRecruiter() {
-        const { isAuthenticated, user } = this.props.auth;
-        return isAuthenticated && user.role === 2
+        // const { isAuthenticated, user } = this.props.auth;
+        // return isAuthenticated && user.role === 2
+        return  this.state.role === 2
     }
 
     isAdmin() {
@@ -63,8 +64,7 @@ class Profile extends Component {
     }
 
     isApplicant() {
-        const { isAuthenticated, user } = this.props.auth;
-        return isAuthenticated && user.role === 1 
+        return  this.state.role === 1 
     }
 
     getAllCompanies() {

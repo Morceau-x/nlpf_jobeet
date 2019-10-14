@@ -10,7 +10,8 @@ class OfferOverview extends Component {
         super(props);
         this.state = {
             offer: this.props.offer,
-            isRecruiter: this.props.isRecruiter
+            isRecruiter: this.props.isRecruiter,
+            user: this.props.user
         };
         this.removeOffer=this.removeOffer.bind(this);
     }
@@ -26,14 +27,14 @@ class OfferOverview extends Component {
     }
 
     render() {
-
+         console.log(this.state.isRecruiter)
         return (
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card bg-light h-100 ">
                     <div className="card-header">
                         {this.state.offer.company}
                         {
-                            this.state.isRecruiter ? <Button close onClick={this.removeOffer}/> : null
+                            this.state.isRecruiter ? null :  <span className="ml-1"> - {this.state.offer.matchPercentage[this.state.user.email]}%</span>
                         }
                     </div>
                     <div className="d-flex flex-column card-body">

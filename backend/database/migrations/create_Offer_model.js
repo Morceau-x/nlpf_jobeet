@@ -29,8 +29,8 @@ module.exports = {
     type: String
   }],
   matchPercentage: {
-    type: Number,
-    default: 0
+    type: Object,
+    default: {}
   },
   created_at: {
     type: Date,

@@ -95,7 +95,8 @@ class Offers extends Component {
                     {
                         this.state.offers.length === 0 ? "No offers created yet" :
                         this.state.display.map((item) => (
-                            <OfferOverview key={item._id} removeOffer={this.removeOffer} isRecruiter={this.isRecruiter()} offer={item}/>
+                            <OfferOverview key={item._id} removeOffer={this.removeOffer} isRecruiter={true} offer={item}>
+                            </OfferOverview>
                         ))
                     }
 
