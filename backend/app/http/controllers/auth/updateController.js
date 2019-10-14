@@ -20,7 +20,6 @@ exports.update = (req, res) => {
   user.techSkills = req.body.techSkills;
   user.softSkills = req.body.softSkills;
   user.company = req.body.company;
-  console.log(req.body);
   user
         .save()
         .then(user => res.json("User updated successfully"))

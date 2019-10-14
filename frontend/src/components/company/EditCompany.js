@@ -15,14 +15,21 @@ import {
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import axios from "axios";
+import {editCompany} from "../../actions/companyActions";
 
 
 class EditCompany extends Component {
     constructor(props) {
         super(props);
+        const query = new URLSearchParams(this.props.location.search);
         this.state = {
-            name: "Company name",
-            description: "Company description",
+            old: this.props.name,
+            name: this.props.name,
+            description: this.props.description,
+            current: "Offers",
+            company: query.get('company'),
+            owned: false,
         };
 
         this.onChange = this.onChange.bind(this);
@@ -31,16 +38,42 @@ class EditCompany extends Component {
 
     isRecruiter() {
         const {isAuthenticated, user} = this.props.auth;
-        return isAuthenticated && user.role !== 1
+        return isAuthenticated && user.role !== 1 && this.state.owned
     }
 
     componentWillMount() {
-        if (!this.isRecruiter())
-            this.props.history.push("/")
+        const {isAuthenticated, user} = this.props.auth;
+        let company = this.state.company;
+        let owned = this.state.company === user.company;
+        if (this.state.company == null || this.state.company === "" || this.state.company === "none") {
+            company = user.company;
+            owned = true
+        }
+        console.log(company);
+        axios
+            .get('/company?company=' + company)
+            .then(response => {
+                if (response != null && response.data != null) {
+                    this.setState({
+                        old: response.data.name,
+                        name: response.data.name,
+                        description: response.data.description,
+                        owned: owned
+                    });
+                }
+            });
     }
 
     onSubmit(e) {
         e.preventDefault();
+        if (this.isRecruiter()) {
+            let company = {
+                old: this.state.old,
+                name: this.state.name,
+                description: this.state.description
+            };
+            editCompany(company);
+        }
         this.props.history.push("/company");
     }
 

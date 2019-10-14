@@ -20,8 +20,6 @@ export default function (state = initialState, action) {
                     company: localStorage.company ? localStorage.company : action.payload.company,
                 }
             };
-            console.log("State");
-            console.log(ret);
             return ret;
         case "UPDATE_USER":
             let tempUser = {
@@ -31,7 +29,6 @@ export default function (state = initialState, action) {
                 company: action.payload.company
             };
 
-            console.log(tempUser);
             return {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),

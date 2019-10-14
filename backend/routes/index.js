@@ -47,11 +47,15 @@ router.post("/removeCandidate", (req, res) => {
 });
 
 router.get("/company", (req, res) => {
-  return controller.getCompany.getCompany(req, res);
+  return controller.company.getCompany(req, res);
+});
+
+router.post("/company/edit", (req, res) => {
+  return controller.company.editCompany(req, res);
 });
 
 router.get("/companies", (req, res) => {
-  return controller.getCompany.getAllCompanies(req, res);
+  return controller.company.getAllCompanies(req, res);
 });
 
 router.get("/recruiters", (req, res) => {

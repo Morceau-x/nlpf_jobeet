@@ -182,7 +182,7 @@ class Profile extends Component {
             softSkills: this.state.selectedSoftSkills ? this.state.selectedSoftSkills.map(s => s.label) : [],
             company: this.state.company.label
         };
-        console.log(updatedUser)
+        console.log(updatedUser);
         this.props.updateUser(updatedUser, this.props);
         this.setState({ disable: true });
     }

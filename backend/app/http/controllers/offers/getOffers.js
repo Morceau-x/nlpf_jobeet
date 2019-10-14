@@ -44,7 +44,6 @@ exports.getCompanyOffers = (req, res) => {
     }
 
     offers = offers.filter(offer => offer.company === req.query.company);
-    console.log(offers);
     return res.json(offers)
   })
 };

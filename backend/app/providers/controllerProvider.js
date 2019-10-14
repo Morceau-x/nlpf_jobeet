@@ -6,9 +6,9 @@ main.resetPasswordController = require("../http/controllers/auth/resetPasswordCo
 main.updateController = require("../http/controllers/auth/updateController");
 main.getSkillsList = require("../http/controllers/skills/getSkillsList");
 main.getOffers = require("../http/controllers/offers/getOffers");
-main.getCompany = require("../http/controllers/company/getCompany");
+main.company = require("../http/controllers/company/company");
 main.getUsers = require("../http/controllers/auth/userController");
-main.apply = require("../http/controllers/offers/apply")
+main.apply = require("../http/controllers/offers/apply");
 main.removeOffer = require("../http/controllers/offers/getOffers");
 
 
