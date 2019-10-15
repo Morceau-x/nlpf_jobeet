@@ -15,3 +15,13 @@ exports.getRecruiters = (req, res) => {
         }));
     })
 };
+
+exports.getAllApplicants = (req, res) => {
+
+    Users.find({}).then(users => {
+        if (!users) {
+            return res.status(404).json("Company not found");
+        }
+        return res.json(users.filter(user => user.role === 1));
+    })
+};

@@ -72,6 +72,10 @@ router.get("/recruiters", (req, res) => {
   return controller.getUsers.getRecruiters(req, res);
 });
 
+router.get("/applicants", (req, res) => {
+  return controller.getUsers.getAllApplicants(req, res);
+});
+
 router.post("/removeSkill", (req, res) => {
   return controller.removeSkill.removeSkill(req, res);
 });

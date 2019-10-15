@@ -81,7 +81,7 @@ class Profile extends Component {
         if (email === user.email || email == null || email === "") {
             email = user.email;
             other = false;
-        } else if (user.role === 1)
+        } else if (user.role === 1) 
             return;
 
         this.getAllCompanies();
@@ -92,8 +92,8 @@ class Profile extends Component {
                 }
             )
             .then(res => {
-                if (res.data.role > user.role)
-                    return;
+                // if (res.data.role > user.role)
+                //     return;
                 let companyItem = {
                     label: (res.data.company === "none" ? "" : res.data.company),
                     value: (res.data.company === "none" ? "" : res.data.company)
