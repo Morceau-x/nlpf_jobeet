@@ -41,12 +41,19 @@ class Company extends Component {
         const {isAuthenticated, user} = this.props.auth;
         return isAuthenticated && user.role !== 1 && this.state.owned
     }
+    isAdmin() {
+        const {isAuthenticated, user} = this.props.auth;
+        return isAuthenticated && user.role === 3
+    }
 
     componentWillMount() {
         const {isAuthenticated, user} = this.props.auth;
         let company = this.state.company;
-        let owned = false;
+        let owned = this.isAdmin();
         if (this.state.company == null || this.state.company === "" || this.state.company === "none") {
+            this.setState({
+                company: user.company
+            });
             company = user.company;
             owned = true
         }

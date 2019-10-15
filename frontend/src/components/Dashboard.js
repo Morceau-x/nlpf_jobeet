@@ -31,8 +31,7 @@ class Dashboard extends Component {
                 this.setState({
                     offersList: response.data
                 }),
-                this.sortOffers(this.state.sortOrder),
-                console.log(this.state.offersList)
+                this.sortOffers(this.state.sortOrder)
             ))
     }
 
@@ -54,14 +53,11 @@ class Dashboard extends Component {
     sortOffers = (e) => {
         const { isAuthenticated, user } = this.props.auth;
         if (e === "high" || e.target.value === "high") {
-            console.log("high")
             this.setState({
                 sortOrder: "high",
                 offersList: this.state.offersList.sort((a, b) => (a.matchPercentage[user.email] > b.matchPercentage[user.email]) ? -1 : 1)
             });
         } else if (e === "low" || e.target.value === "low") {
-            console.log("low")
-
             this.setState({
                 sortOrder: "low",
                 offersList: this.state.offersList.sort((a, b) => (a.matchPercentage[user.email] > b.matchPercentage[user.email]) ? 1 : -1)
@@ -76,7 +72,6 @@ class Dashboard extends Component {
         let startIndex = this.state.itemsCountPerPage * (this.state.activePage - 1);
         let buffArray = [].concat(this.state.offersList)
         this.setState({ displayedList: buffArray.splice(startIndex, this.state.itemsCountPerPage) });
-        console.log(this.state.displayedList)
     };
 
     isRecruiter() {

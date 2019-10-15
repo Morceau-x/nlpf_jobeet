@@ -38,11 +38,16 @@ router.post("/removeOffer", (req, res) => {
   return controller.getOffers.removeOffer(req, res);
 });
 
-router.post("/apply", (req, res) => {
+router.post("/applicant/add", (req, res) => {
   return controller.apply.applyToOffer(req, res);
 });
 
-router.post("/removeCandidate", (req, res) => {
+router.post("/applicant/exist", (req, res) => {
+  return controller.apply.applicantExists(req, res);
+});
+
+
+router.post("/applicant/remove", (req, res) => {
   return controller.apply.removeCandidate(req, res);
 });
 
@@ -53,6 +58,11 @@ router.get("/company", (req, res) => {
 router.post("/company/edit", (req, res) => {
   return controller.company.editCompany(req, res);
 });
+
+router.post("/company/add", (req, res) => {
+  return controller.company.addCompany(req, res);
+});
+
 
 router.get("/companies", (req, res) => {
   return controller.company.getAllCompanies(req, res);

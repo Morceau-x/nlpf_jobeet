@@ -10,7 +10,8 @@ class Chat extends Component {
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-            dropdownOpen: false
+            dropdownOpen: false,
+            display: ""
         };
     }
 
@@ -20,12 +21,19 @@ class Chat extends Component {
         }));
     }
 
+    componentWillMount() {
+        const {isAuthenticated, user} = this.props.auth;
+        if (!isAuthenticated || user.role === 3)
+            this.setState({display: "none"})
+    }
+
     render() {
 
         const bottomRight = {
             position: "fixed",
             bottom: 0,
-            right: 0
+            right: 0,
+            display: this.state.display
         };
 
         return (
@@ -34,7 +42,7 @@ class Chat extends Component {
                     <div className="row">
                         <Dropdown direction="up" isOpen={this.state.dropdownOpen} toggle={this.toggle}
                                   className="col-12 p-0">
-                            <DropdownToggle className="w-100 btn-info">
+                            <DropdownToggle className="w-100 btn-light btn-outline-primary">
                                 Chat
                             </DropdownToggle>
                             <DropdownMenu className="w-100" persist={true}>

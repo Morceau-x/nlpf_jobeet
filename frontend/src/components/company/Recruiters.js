@@ -15,7 +15,7 @@ class Recruiters extends Component {
             recruiters: [],
             display: [],
             nbPerPage: 6,
-            activePage: 1
+            activePage: 1,
         };
     }
 
@@ -35,6 +35,7 @@ class Recruiters extends Component {
                 this.setState({recruiters: response.data});
             });
     }
+
 
     render() {
         return (

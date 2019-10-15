@@ -1,19 +1,24 @@
+var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.Types.ObjectId;
+
 module.exports = {
   offer: {
     type: ObjectId,
     required: true
   },
   user: {
-    type: String,
+    type: ObjectId,
     required: true
   },
   userAccepted: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   },
   companyAccepted: {
-    type: String,
-    required: true
+    type: Boolean,
+    required: true,
+    default: false
   },
   created_at: {
     type: Date,

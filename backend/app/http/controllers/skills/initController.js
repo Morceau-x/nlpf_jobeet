@@ -8,7 +8,7 @@ module.exports = {
    new Skill(s)
     .save()
     .then(console.log("Added skill: " + s.name))
-    .catch(err => console.log(err))
+    .catch(err => null)
   );
  }
 };

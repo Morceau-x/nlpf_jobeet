@@ -1,24 +1,13 @@
 import React, {Component} from "react";
-import {Link, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from "axios";
 
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    Col,
-    Button,
-    Form,
-    FormGroup,
-    Label,
-    FormFeedback,
-    Input
-} from "reactstrap";
+import {Card, CardBody} from "reactstrap";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import Pagination from "react-js-pagination";
 import OfferOverview from "../OfferOverview"
-import Register from "../auth/Register";
+
 //import $ from 'jquery';
 
 
@@ -44,17 +33,8 @@ class Offers extends Component {
     }
 
     componentWillMount() {
-        const {isAuthenticated, user} = this.props.auth;
-
-        let company = user.company;
-        if (user.company == null || user.company === "" || user.company === "none")
-            company = this.state.company;
-
-        if (company == null || company === "" || company === "none")
-            return;
-
         axios
-            .get('/offers/company?company=' + company)
+            .get('/offers/company?company=' + this.state.company)
             .then(response => {
                 this.setState({offers: response.data});
                 this.onPageChange(1);
@@ -70,14 +50,14 @@ class Offers extends Component {
 
     removeOffer(id) {
         console.log(this.state)
-        let buffArray = [].concat(this.state.offers).filter(function(obj){
+        let buffArray = [].concat(this.state.offers).filter(function (obj) {
             return obj._id !== id;
-    })
-    this.setState({
-        offers: buffArray
-    })
-    this.onPageChange(this.state.activePage)
-}
+        })
+        this.setState({
+            offers: buffArray
+        })
+        this.onPageChange(this.state.activePage)
+    }
 
     render() {
         return (
@@ -90,18 +70,28 @@ class Offers extends Component {
                     }
 
                     <h4 className="card-title mb-5">Offers of the company</h4>
-                    <div className="row">
+
 
                     {
-                        this.state.offers.length === 0 ? "No offers created yet" :
-                        this.state.display.map((item) => (
-                            <OfferOverview key={item._id} removeOffer={this.removeOffer} isRecruiter={true} offer={item}>
-                            </OfferOverview>
-                        ))
+                        this.state.offers.length === 0 ?
+                            <div className="row">
+                                <div className="col-4 mb-5">
+                                </div>
+                                <h3 className="col-4 mb-5 p-2 border border-warning rounded text-center">
+                                    No offers created yet
+                                </h3>
+                                <div className="col-4 mb-5">
+                                </div>
+                            </div>
+                            :
+                            <div className="row">
+                                {this.state.display.map((item) => (
+                                <OfferOverview key={item._id} removeOffer={this.removeOffer} isRecruiter={true} offer={item}>
+                                </OfferOverview>
+                                ))}
+                            </div>
                     }
 
-                        
-                    </div>
                     <Pagination linkClass="page-link"
                                 itemClass="page-item"
                                 prevPageText="<"

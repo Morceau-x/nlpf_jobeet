@@ -11,9 +11,11 @@ class OfferOverview extends Component {
         this.state = {
             offer: this.props.offer,
             isRecruiter: this.props.isRecruiter,
-            user: this.props.user
+            user: this.props.user,
+            applied: false
         };
         this.removeOffer=this.removeOffer.bind(this);
+        this.isApplicant = this.isApplicant.bind(this);
     }
 
     removeOffer() {
@@ -26,8 +28,35 @@ class OfferOverview extends Component {
             });
     }
 
+    componentWillMount() {
+        this.isApplicant()
+    }
+
+    isApplicant() {
+        if (!this.state || !this.state.user)
+            return;
+        axios
+            .post('/applicant/exist', {
+                id: this.state.offer._id,
+                applicantEmail: this.state.user.email
+            })
+            .then(res => {
+                this.setState(
+                    {
+                        applied: true,
+                    }
+                );
+            }).catch(res => {
+            this.setState(
+                {
+                    applied: false
+                }
+            );
+        })
+    }
+
     render() {
-         console.log(this.state.isRecruiter)
+
         return (
             <div className="col-lg-4 col-md-6 mb-4">
                 <div className="card bg-light h-100 ">
@@ -40,13 +69,14 @@ class OfferOverview extends Component {
                     <div className="d-flex flex-column card-body">
                         <h5 className="card-title mt-2">{this.state.offer.offerName}</h5>
                         <p className="card-text mt-2">{this.state.offer.shortDesc}</p>
-                        <div className="mt-auto">
+                        <div className="mt-auto w-100">
                             <Link to={"/offer?id=" + this.state.offer._id}>
                                 <button className="btn btn-primary">See offer</button>
                             </Link>
+                            <div className="btn btn-outline-info btn-light disabled border-info ml-2">{new Date(this.props.offer.created_at).toLocaleDateString("fr-FR")}</div>
+                            { this.state.applied ? <div className="btn btn-outline-success btn-light disabled border-success ml-2">Applied</div> : null }
                         </div>
                     </div>
-                    <span>{new Date(this.props.offer.created_at).toLocaleDateString("fr-FR")}</span>
                 </div>
             </div>
         );

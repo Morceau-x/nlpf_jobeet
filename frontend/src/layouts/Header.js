@@ -128,7 +128,7 @@ class Header extends Component {
             <h4 className="d-inline-block mr-2" >Jobeet</h4>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          {(isAuthenticated && user.role === 1) ? applicantNav : (isAuthenticated && user.role === 2) ? recruiterNav : adminNav}
+          {isAuthenticated ? (user.role === 1 ? applicantNav : (user.role === 2 ? recruiterNav : adminNav)) : <div></div>}
           <Collapse isOpen={this.state.isOpen} navbar>
             {isAuthenticated ? authLinks : guestLinks}
           </Collapse>

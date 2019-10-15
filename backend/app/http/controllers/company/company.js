@@ -20,8 +20,7 @@ exports.getAllCompanies = (req, res) => {
 };
 
 exports.editCompany = (req, res) => {
-    console.log("EDIT");
-    Companies.findOne({ name: req.body.old }).then(company => {
+    Companies.findOne({name: req.body.old}).then(company => {
         // Check for user
         if (!company) {
             // errors.email = "User not found";
@@ -34,4 +33,13 @@ exports.editCompany = (req, res) => {
             .then(company => res.json("User updated successfully"))
             .catch(err => console.log(err));
     });
+};
+
+exports.addCompany = (req, res) => {
+    let company = new Companies({
+        name: req.body.name,
+        description: req.body.description === "" ? " " : req.body.description
+    });
+    company.save().then(company => res.json("User updated successfully"))
+        .catch(err => console.log(err));
 };

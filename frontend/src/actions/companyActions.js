@@ -21,3 +21,23 @@ export const editCompany = (companyData) => {
             }
         );
 };
+
+export const addCompany = (companyData) => {
+    axios
+        .post("/company/add", companyData)
+        .then(res => {
+                toast.success(
+                    "The company has been created.",
+                    {
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: false,
+                        hideProgressBar: true
+                    }
+                );
+            }
+        )
+        .catch(err => {
+                console.log(err);
+            }
+        );
+};
