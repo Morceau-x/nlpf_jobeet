@@ -98,7 +98,9 @@ router.post("/createSkill", (req, res) => {
 router.post("/message/send", (req, res) => {
   return controller.apply.sendMessage(req, res);
 });
-
+router.post("/createOffer", (req, res) => {
+  return controller.getOffers.createOffer(req, res);
+});
 
 
 module.exports = router;
