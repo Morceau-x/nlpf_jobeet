@@ -1,11 +1,11 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-import {Button} from 'reactstrap';
+import { Button, Card, CardHeader, CardBody } from 'reactstrap';
 
 
 class Offer extends Component {
@@ -23,7 +23,7 @@ class Offer extends Component {
             fullDesc: "",
             askedSkills: [],
             hiddenSkills: [],
-            matchScore: 0,
+            matchScore: [],
             errors: {},
             applied: false,
             removedOffer: false,
@@ -34,7 +34,7 @@ class Offer extends Component {
     }
 
     componentWillMount() {
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
 
         axios
             .post('/getOfferById', {
@@ -51,14 +51,30 @@ class Offer extends Component {
                         fullDesc: res.data.fullDesc,
                         askedSkills: res.data.askedSkills,
                         hiddenSkills: res.data.hiddenSkills,
-                        matchScore: res.data.matchPercentage
+                        matchScore: this.sortProperties(res.data.matchPercentage)
                     }
                 );
+
+                console.log(this.state)
             })
     }
 
+    sortProperties(obj) {
+        // convert object into array
+        var sortable = [];
+        for (var key in obj)
+            if (obj.hasOwnProperty(key))
+                sortable.push([key, obj[key]]); // each item is an array in format [key, value]
+
+        // sort items by value
+        sortable.sort(function (a, b) {
+            return a[1] - b[1]; // compare numbers
+        });
+        return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
+    }
+
     isRecruiter() {
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
         return isAuthenticated && user.role !== 1
     }
 
@@ -77,16 +93,16 @@ class Offer extends Component {
                     }
                 );
             }).catch(res => {
-            this.setState(
-                {
-                    applied: false
-                }
-            );
-        })
+                this.setState(
+                    {
+                        applied: false
+                    }
+                );
+            })
     }
 
     applyOffer = () => {
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
         axios
             .post('/applicant/add', {
                 id: this.state.offerID,
@@ -103,7 +119,7 @@ class Offer extends Component {
 
     removeOffer = () => {
         axios
-            .post('/removeOffer', {id: this.state.offerID})
+            .post('/removeOffer', { id: this.state.offerID })
             .then(response => {
                 if (response.status === 200) {
                     this.props.history.push("/company")
@@ -112,7 +128,7 @@ class Offer extends Component {
     }
 
     render() {
-        const {isAuthenticated, user} = this.props.auth;
+        const { isAuthenticated, user } = this.props.auth;
 
         let content = (
             <div className="row">
@@ -136,7 +152,7 @@ class Offer extends Component {
                     </Link>
                     <p>Added by {this.state.recruiter}</p>
                     <p className="lead">{this.state.shortDesc}</p>
-                    <hr className="my-2"/>
+                    <hr className="my-2" />
                     <p>{this.state.fullDesc}</p>
                     {this.isRecruiter() ?
                         null :
@@ -161,14 +177,39 @@ class Offer extends Component {
                     }
 
                 </div>
-                <div className="col-2">
-                    <h5 className="display-5">Skills required</h5>
-                    <ul>
-                        {this.state.askedSkills.map((item, index) => (
-                            <li key={index}>{item}</li>
+                <hr className="style1 mt-5"></hr>
+
+                {user.role === 2 && user.company === this.state.company ? Object.keys(this.state.matchScore).length > 0 ?
+
+                    <div className="col-lg-4 col-md-6 mb-4">
+                        <h5 className="col-xs-1" align="center">Suggested members for this offer</h5>
+                        {this.state.matchScore.map((obj, i) => (
+                            <div key={i} className="card bg-light h-100 ">
+
+                                <div className="card-header">
+                                    {obj[1]}% match with required skills
+                        </div>
+                                <div className="d-flex flex-column card-body">
+                                    <h5 className="card-title mt-2">{obj[0]}</h5>
+                                    <div className="mt-auto">
+                                        <Link to={"/profile?email=" + obj[0]}>
+                                            <button className="btn btn-primary">See profile</button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                         ))}
-                    </ul>
-                </div>
+                    </div>
+                    : <div className="row">
+                        <div className="col-4 mb-5">
+                        </div>
+                        <h3 className="col-4 mb-5 p-2 border border-warning rounded text-center">
+                            No members match the offer's skills required
+        </h3>
+                        <div className="col-4 mb-5">
+                        </div>
+                    </div> : null
+                }
             </div>
         );
 
