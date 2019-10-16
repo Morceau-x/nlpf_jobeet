@@ -100,9 +100,6 @@ class Header extends Component {
         <NavItem>
           <NavLink href="/notifications">Notifications</NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink href="/skills">Skills</NavLink>
-        </NavItem>
       </Nav>
     );
 

@@ -16,6 +16,9 @@ exports.getAllOffers = (req, res) => {
     let offers = result.offers;
     let user = result.user;
     let userSkills = [].concat(user.techSkills).concat(user.softSkills);
+    if (user.role === 2) {
+      return res.json(offers)
+    }
     offers.forEach(function (offer) {
       let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x));
       offer.matchPercentage[user.email] = Math.round((matchedSkills.length / offer.askedSkills.length) * 100);
