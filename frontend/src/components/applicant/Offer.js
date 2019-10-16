@@ -23,7 +23,8 @@ class Offer extends Component {
             hiddenSkills: [],
             matchScore: 0,
             errors: {},
-            applied: false
+            applied: false,
+            removedOffer: false,
         };
 
         this.isApplicant = this.isApplicant.bind(this)
@@ -97,6 +98,16 @@ class Offer extends Component {
             }).catch(null)
     };
 
+    removeOffer = () => {
+        axios
+            .post('/removeOffer', { id : this.state.offerID })
+            .then(response => {
+                if (response.status === 200) {
+                    this.props.history.push("/company")
+                }
+            });
+    }
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
 
@@ -141,12 +152,11 @@ class Offer extends Component {
 
                     </div>
                     <div className="col-2">
-                        <h5 className="display-5">Skills required</h5>
-                        <ul>
-                            {this.state.askedSkills.map((item, index) => (
-                                <li key={index}>{item}</li>
-                            ))}
-                        </ul>
+                        { 
+                            user.role === 2 && user.company === this.state.company ?
+                            <div className="btn btn-outline-danger mt-3 ml-2" onClick={this.removeOffer} >Remove offer</div> : null
+                        }
+                    
                     </div>
                 </div>
             </div>
