@@ -51,7 +51,7 @@ class Offer extends Component {
                         fullDesc: res.data.fullDesc,
                         askedSkills: res.data.askedSkills,
                         hiddenSkills: res.data.hiddenSkills,
-                        matchScore: this.sortProperties(res.data.matchPercentage)
+                        matchScore: this.isRecruiter() ? this.sortProperties(res.data.matchPercentage) : res.data.matchPercentage
                     }
                 );
 
