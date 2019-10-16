@@ -199,12 +199,12 @@ class Offer extends Component {
                             ))}
                         </div>
                         : <div className="row">
-                            <div className="col-4 mb-5">
+                            <div className="col-3 mb-5">
                             </div>
-                            <h3 className="col-4 mb-5 p-2 border border-warning rounded text-center">
+                            <h3 className="col-3 mb-5 p-2 border border-warning rounded text-center">
                                 No members match the offer's skills required
                             </h3>
-                            <div className="col-4 mb-5">
+                            <div className="col-3 mb-5">
                             </div>
                         </div> : null
                     }
