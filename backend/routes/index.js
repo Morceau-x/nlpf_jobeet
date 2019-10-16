@@ -46,9 +46,17 @@ router.post("/applicant/exist", (req, res) => {
   return controller.apply.applicantExists(req, res);
 });
 
+router.post("/applicant/company", (req, res) => {
+  return controller.apply.getCompanyCandidates(req, res);
+});
 
-router.post("/applicant/remove", (req, res) => {
-  return controller.apply.removeCandidate(req, res);
+
+router.post("/applicant/accept", (req, res) => {
+  return controller.apply.accept(req, res);
+});
+
+router.post("/applicant/reject", (req, res) => {
+  return controller.apply.reject(req, res);
 });
 
 router.get("/company", (req, res) => {

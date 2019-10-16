@@ -11,9 +11,11 @@ import {Button} from 'reactstrap';
 class Offer extends Component {
     constructor(props) {
         super(props);
-        const query = new URLSearchParams(this.props.location.search);
+        let query = null;
+        if (this.props.location)
+            query = new URLSearchParams(this.props.location.search);
         this.state = {
-            offerID: query.get('id'),
+            offerID: this.props.id == null ? query.get('id') : this.props.id,
             offerName: "",
             company: "",
             recruiter: "",
@@ -23,7 +25,8 @@ class Offer extends Component {
             hiddenSkills: [],
             matchScore: 0,
             errors: {},
-            applied: false
+            applied: false,
+            headless: this.props.headless == null ? false : this.props.headless
         };
 
         this.isApplicant = this.isApplicant.bind(this)
@@ -100,55 +103,59 @@ class Offer extends Component {
     render() {
         const {isAuthenticated, user} = this.props.auth;
 
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-4">
-                        <h5 className="display-5">Skills required</h5>
-                        <ul>
-                            {this.state.askedSkills.map((item, index) => (
-                                <li key={index} item={item}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="col-6">
-                        <h2 className="display-4">{this.state.offerName}
-                            {this.isRecruiter() ?
-                                null :
-                                '-' + this.state.matchScore[user.email] + '%'
-                            }
-                        </h2>
-                        <Link to={"/company?company=" + this.state.company}>
-                            <h2 className="display-5">{this.state.company}</h2>
-                        </Link>
-                        <p>Added by {this.state.recruiter}</p>
-                        <p className="lead">{this.state.shortDesc}</p>
-                        <hr className="my-2"/>
-                        <p>{this.state.fullDesc}</p>
+        let content = (
+            <div className="row">
+                <div className="col-4">
+                    <h5 className="display-5">Skills required</h5>
+                    <ul>
+                        {this.state.askedSkills.map((item, index) => (
+                            <li key={index}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="col-6">
+                    <h2 className="display-4">{this.state.offerName}
                         {this.isRecruiter() ?
                             null :
-                            <div className="lead">
-                                <div>
-                                    {
-                                        this.state.applied ?
-                                            <Button color="success">You already applied</Button>
-                                            :
-                                            <Button onClick={this.applyOffer} color="primary">Apply now !</Button>
-                                    }
-                                </div>
-                            </div>
+                            '-' + this.state.matchScore[user.email] + '%'
                         }
+                    </h2>
+                    <Link to={"/company?company=" + this.state.company}>
+                        <h2 className="display-5">{this.state.company}</h2>
+                    </Link>
+                    <p>Added by {this.state.recruiter}</p>
+                    <p className="lead">{this.state.shortDesc}</p>
+                    <hr className="my-2"/>
+                    <p>{this.state.fullDesc}</p>
+                    {this.isRecruiter() ?
+                        null :
+                        <div className="lead">
+                            <div>
+                                {
+                                    this.state.applied ?
+                                        <Button color="success">You already applied</Button>
+                                        :
+                                        <Button onClick={this.applyOffer} color="primary">Apply now !</Button>
+                                }
+                            </div>
+                        </div>
+                    }
 
-                    </div>
-                    <div className="col-2">
-                        <h5 className="display-5">Skills required</h5>
-                        <ul>
-                            {this.state.askedSkills.map((item, index) => (
-                                <li key={index}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
                 </div>
+                <div className="col-2">
+                    <h5 className="display-5">Skills required</h5>
+                    <ul>
+                        {this.state.askedSkills.map((item, index) => (
+                            <li key={index}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        );
+
+        return this.state.headless ? content : (
+            <div className="container">
+                {content}
             </div>
         );
     }

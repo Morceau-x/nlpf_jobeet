@@ -25,9 +25,6 @@ module.exports = {
   hiddenSkills:[{
     type: String
   }],
-  applicants:[{//email
-    type: String
-  }],
   matchPercentage: {
     type: Object,
     default: {}

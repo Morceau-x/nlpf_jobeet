@@ -16,7 +16,9 @@ let companyList = [];
 class Profile extends Component {
     constructor(props) {
         super(props);
-        const query = new URLSearchParams(this.props.location.search);
+        let query = null;
+        if (this.props.location)
+            query = new URLSearchParams(this.props.location.search);
         this.state = {
             email: "",
             firstname: "",
@@ -28,7 +30,7 @@ class Profile extends Component {
                 label: "",
                 value: ""
             },
-            userParam: query.get('email'),
+            userParam: this.props.email == null ? query.get('email') : this.props.email,
             selectedTechSkills: [],
             selectedSoftSkills: [],
             otherProfile: false,

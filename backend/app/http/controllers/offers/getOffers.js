@@ -13,14 +13,12 @@ async function getMachingOffers(email) {
 
 exports.getAllOffers = (req, res) => {
   getMachingOffers(req.body.email).then(result => {
-    let offers = result.offers
-    let user = result.user
-    let userSkills = [].concat(user.techSkills).concat(user.softSkills)
+    let offers = result.offers;
+    let user = result.user;
+    let userSkills = [].concat(user.techSkills).concat(user.softSkills);
     offers.forEach(function (offer) {
-
-      let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x))
-      let matchScore = Math.round((matchedSkills.length / offer.askedSkills.length) * 100)
-      offer.matchPercentage[user.email] = matchScore
+      let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x));
+      offer.matchPercentage[user.email] = Math.round((matchedSkills.length / offer.askedSkills.length) * 100);
       offer.save();
     });
 
@@ -32,7 +30,7 @@ exports.getAllOffers = (req, res) => {
 
 exports.removeOffer = (req, res) => {
   Offers.remove({ _id: req.body.id }).then(offer => {return res.json(offer)})
-}
+};
 
 
 exports.getCompanyOffers = (req, res) => {
@@ -45,6 +43,7 @@ exports.getCompanyOffers = (req, res) => {
     return res.json(offers)
   })
 };
+
 exports.getOfferById = (req, res) => {
   //console.log(req.body)
   Offers.findById(req.body.id).then(offer => {
