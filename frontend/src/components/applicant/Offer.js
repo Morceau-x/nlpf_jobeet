@@ -26,6 +26,7 @@ class Offer extends Component {
             matchScore: 0,
             errors: {},
             applied: false,
+            removedOffer: false,
             headless: this.props.headless == null ? false : this.props.headless
         };
 
@@ -100,6 +101,16 @@ class Offer extends Component {
             }).catch(null)
     };
 
+    removeOffer = () => {
+        axios
+            .post('/removeOffer', { id : this.state.offerID })
+            .then(response => {
+                if (response.status === 200) {
+                    this.props.history.push("/company")
+                }
+            });
+    }
+
     render() {
         const {isAuthenticated, user} = this.props.auth;
 
@@ -141,6 +152,14 @@ class Offer extends Component {
                         </div>
                     }
 
+                    </div>
+                    <div className="col-2">
+                        { 
+                            user.role === 2 && user.company === this.state.company ?
+                            <div className="btn btn-outline-danger mt-3 ml-2" onClick={this.removeOffer} >Remove offer</div> : null
+                        }
+                    
+                    </div>
                 </div>
                 <div className="col-2">
                     <h5 className="display-5">Skills required</h5>
