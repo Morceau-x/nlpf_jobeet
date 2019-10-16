@@ -16,7 +16,7 @@ exports.getAllOffers = (req, res) => {
     let offers = result.offers;
     let user = result.user;
     let userSkills = [].concat(user.techSkills).concat(user.softSkills);
-    if (user.role === 2) {
+    if (user.role !== 1) {
       return res.json(offers)
     }
     offers.forEach(function (offer) {
@@ -33,7 +33,7 @@ exports.getAllOffers = (req, res) => {
 };
 
 exports.removeOffer = (req, res) => {
-  Offers.remove({ _id: req.body.id }).then(offer => {return res.json(offer)})
+  Offers.remove({ _id: req.body.id }).then(offer => { return res.json(offer) })
 };
 
 
@@ -56,4 +56,19 @@ exports.getOfferById = (req, res) => {
     }
     return res.json(offer)
   })
+};
+
+exports.createOffer = (req, res) => {
+  const offer = new Offers({
+    offerName: req.body.offerName,
+    shortDesc: req.body.shortDesc,
+    fullDesc: req.body.fullDesc,
+    recruiter: req.body.recruiter,
+    company: req.body.company,
+    askedSkills: req.body.askedSkills
+  });
+  offer
+    .save()
+    .then(offers => res.json("Offer Created Successfully"))
+    .catch(err => console.log(err));
 };

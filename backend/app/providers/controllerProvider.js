@@ -12,6 +12,6 @@ main.apply = require("../http/controllers/offers/apply");
 main.removeOffer = require("../http/controllers/offers/getOffers");
 main.removeSkill = require("../http/controllers/skills/getSkillsList");
 main.createSkill = require("../http/controllers/skills/getSkillsList");
-
+main.createOffer = require("../http/controllers/offers/getOffers");
 
 module.exports = main;
