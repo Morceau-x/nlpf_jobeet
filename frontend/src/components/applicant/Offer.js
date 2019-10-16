@@ -68,7 +68,7 @@ class Offer extends Component {
 
         // sort items by value
         sortable.sort(function (a, b) {
-            return a[1] - b[1]; // compare numbers
+            return b[1] - a[1]; // compare numbers
         });
         return sortable; // array in format [ [ key1, val1 ], [ key2, val2 ], ... ]
     }
@@ -132,7 +132,7 @@ class Offer extends Component {
 
         let content = (
             <div className="row">
-                <div className="col-4">
+                <div className="col-2">
                     <h5 className="display-5">Skills required</h5>
                     <ul>
                         {this.state.askedSkills.map((item, index) => (
@@ -169,47 +169,49 @@ class Offer extends Component {
                     }
 
                 </div>
-                <div className="col-2">
+                <div className="col-3">
                     {
                         user.role === 2 && user.company === this.state.company && !this.state.headless ?
                             <div className="btn btn-outline-danger mt-3 ml-2" onClick={this.removeOffer}>Remove
                                 offer</div> : null
                     }
+                    {user.role === 2 && user.company === this.state.company ? Object.keys(this.state.matchScore).length > 0 ?
 
-                </div>
-                <hr className="style1 mt-5"></hr>
+                        <div className="mb-4">
+                            <hr className="style1 mt-5"></hr>
 
-                {user.role === 2 && user.company === this.state.company ? Object.keys(this.state.matchScore).length > 0 ?
+                            <h5 className="col-xs-1" >Suggested members for this offer</h5>
+                            {this.state.matchScore.map((obj, i) => (
+                                <div key={i} className="card bg-light mb-3">
 
-                    <div className="col-lg-4 col-md-6 mb-4">
-                        <h5 className="col-xs-1" align="center">Suggested members for this offer</h5>
-                        {this.state.matchScore.map((obj, i) => (
-                            <div key={i} className="card bg-light h-100 ">
-
-                                <div className="card-header">
-                                    {obj[1]}% match with required skills
-                        </div>
-                                <div className="d-flex flex-column card-body">
-                                    <h5 className="card-title mt-2">{obj[0]}</h5>
-                                    <div className="mt-auto">
-                                        <Link to={"/profile?email=" + obj[0]}>
-                                            <button className="btn btn-primary">See profile</button>
-                                        </Link>
+                                    <div className="card-header">
+                                        {obj[1]}% match with required skills
+                                </div>
+                                    <div className="d-flex flex-column card-body">
+                                        <h5 className="card-title mt-2">{obj[0]}</h5>
+                                        <div className="mt-auto">
+                                            <Link to={"/profile?email=" + obj[0]}>
+                                                <button className="btn btn-primary">See profile</button>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
+                            ))}
+                        </div>
+                        : <div className="row">
+                            <div className="col-4 mb-5">
                             </div>
-                        ))}
-                    </div>
-                    : <div className="row">
-                        <div className="col-4 mb-5">
-                        </div>
-                        <h3 className="col-4 mb-5 p-2 border border-warning rounded text-center">
-                            No members match the offer's skills required
-        </h3>
-                        <div className="col-4 mb-5">
-                        </div>
-                    </div> : null
-                }
+                            <h3 className="col-4 mb-5 p-2 border border-warning rounded text-center">
+                                No members match the offer's skills required
+                            </h3>
+                            <div className="col-4 mb-5">
+                            </div>
+                        </div> : null
+                    }
+
+                </div>
+
+
             </div>
         );
 

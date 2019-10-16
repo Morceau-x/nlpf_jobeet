@@ -19,6 +19,7 @@ exports.getAllOffers = (req, res) => {
     offers.forEach(function (offer) {
       let matchedSkills = userSkills.filter(x => offer.askedSkills.includes(x));
       offer.matchPercentage[user.email] = Math.round((matchedSkills.length / offer.askedSkills.length) * 100);
+      offer.markModified('matchPercentage')
       offer.save();
     });
 
