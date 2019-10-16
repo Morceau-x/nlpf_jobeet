@@ -50,6 +50,9 @@ router.post("/applicant/company", (req, res) => {
   return controller.apply.getCompanyCandidates(req, res);
 });
 
+router.post("/applicant/user", (req, res) => {
+  return controller.apply.getUserCandidates(req, res);
+});
 
 router.post("/applicant/accept", (req, res) => {
   return controller.apply.accept(req, res);
@@ -90,6 +93,10 @@ router.post("/removeSkill", (req, res) => {
 
 router.post("/createSkill", (req, res) => {
   return controller.createSkill.createSkill(req, res);
+});
+
+router.post("/message/send", (req, res) => {
+  return controller.apply.sendMessage(req, res);
 });
 
 

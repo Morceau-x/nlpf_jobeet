@@ -125,7 +125,7 @@ class Offer extends Component {
                     this.props.history.push("/company")
                 }
             });
-    }
+    };
 
     render() {
         const { isAuthenticated, user } = this.props.auth;

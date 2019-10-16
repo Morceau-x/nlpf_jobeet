@@ -20,6 +20,10 @@ module.exports = {
     required: true,
     default: false
   },
+  chat: {
+    type: String,
+    default: "Start of chat \n"
+  },
   created_at: {
     type: Date,
     default: Date.now
